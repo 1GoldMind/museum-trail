@@ -1,0 +1,40 @@
+name: Sync from Webflow
+
+# Press "Run workflow" on the Actions tab after editing content in Webflow CMS.
+# It also runs once a day at 06:00 UK time as a safety net.
+on:
+  workflow_dispatch:
+    inputs:
+      trail:
+        description: "Trail name (file in trails/, without .json)"
+        required: true
+        default: "raf-london"
+  schedule:
+    - cron: "0 6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download content from Webflow and build the game file
+        env:
+          WEBFLOW_TOKEN: ${{ secrets.WEBFLOW_TOKEN }}
+        run: python tools/sync_webflow.py "${{ github.event.inputs.trail || 'raf-london' }}"
+      - name: Save changes (the live game updates a minute later)
+        run: |
+          git config user.name "trail-sync"
+          git config user.email "trail-sync@users.noreply.github.com"
+          git add games/
+          if git diff --cached --quiet; then
+            echo "No content changes."
+          else
+            git commit -m "Sync content from Webflow"
+            git push
+          fi

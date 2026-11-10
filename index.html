@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071d35">
+<title>Museum trail game</title>
+<style>
+:root{--navy:#071d35;--blue:#145d94;--ink:#14273a;--muted:#4c6275;--gold:#ffd36d;--line:#d6e4ec;--green:#1a7a56;--sky:#eaf3f7;--shadow:0 14px 40px rgba(12,45,74,.12)}
+*{box-sizing:border-box}body{margin:0;font:19px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--sky)}
+button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:4px solid #ff8b32;outline-offset:3px}h1,h2,h3,p{margin:0}
+h1{font-size:clamp(36px,7vw,60px);line-height:1.02;letter-spacing:-.04em}h2{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.03em}h3{font-size:23px;line-height:1.2;margin:18px 0 8px}
+.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}
+.header{background:var(--navy);color:#fff;border-bottom:4px solid var(--gold)}.header-inner{max-width:1000px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px}
+.brand{font-weight:900;font-size:15px}.brand span{font-weight:600;color:#b5cfdf}.hbtns{display:flex;gap:8px}
+.iconbtn{background:transparent;color:#fff;border:1px solid #6d8daa;border-radius:12px;min-height:44px;padding:6px 12px;font-weight:800;font-size:15px}
+.shell{max-width:1000px;margin:auto;padding:18px 14px 60px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px 18px}
+.eyebrow{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:var(--blue)}
+.btn{min-height:64px;border-radius:18px;border:0;padding:14px 22px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:900;font-size:21px}
+.btn:active{transform:translateY(3px)}.btn.go{background:var(--gold);color:#172739;box-shadow:0 5px 0 #d7a43c}.btn.dark{background:#0b3154;color:#fff;box-shadow:0 5px 0 #031426}
+.btn.soft{background:#eef6fb;color:#174b6c;border:2px solid #c6dde9;min-height:52px;font-size:17px;padding:10px 16px}.btn.link{background:none;color:#1a5b86;min-height:44px;font-size:16px;text-decoration:underline;padding:6px}
+.btn.wide{width:100%}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.back{border:0;background:none;color:#1a5b86;font-weight:850;font-size:18px;padding:10px 0;min-height:44px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.say{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:end;margin:16px 0}.say>svg{width:90px;height:90px}
+.bubble{position:relative;background:#fff;border:3px solid #0b3154;border-radius:22px;padding:14px 18px;font-size:21px;font-weight:650;line-height:1.4;text-align:left}
+.bubble:before{content:"";position:absolute;left:-15px;bottom:22px;border:12px solid transparent;border-right-color:#0b3154;border-left:0}.bubble p+p{margin-top:8px}
+.grownup{background:#fff8e6;border:2px solid #f0d9a6;border-radius:18px;padding:14px 16px;font-size:16px;color:#5d4513;text-align:left;margin-top:14px}.grownup strong{display:block;color:#3f2e08;margin-bottom:2px}
+.lookbox{display:flex;gap:12px;align-items:center;background:#fff6e2;border:2px solid #edd4a2;border-radius:18px;padding:14px 16px;font-weight:800;color:#5e4312;font-size:20px;margin:14px 0}.lookbox .eyes{font-size:34px}
+.scene{position:relative;background:radial-gradient(circle at 45% 40%,#e2f6ff,#b7deef 75%);border-radius:22px;border:1px solid #a9cfe3;display:grid;place-items:center;padding:14px;margin:12px 0}
+.art-wrap{position:relative;width:100%;max-width:520px}.art-wrap svg,.art-wrap img{width:100%;height:auto;display:block;border-radius:14px}
+.scene .note{position:absolute;bottom:8px;right:12px;font-size:13px;color:#3a5d75;background:#ffffffd0;border-radius:8px;padding:3px 8px}
+.field{display:grid;gap:6px;width:100%;max-width:440px;text-align:left;font-weight:800}.field input{width:100%;min-width:0;min-height:58px;border:3px solid #a5c6d8;border-radius:16px;padding:10px 16px;font-size:22px;font-weight:800}
+/* intro */
+.hero{padding:0;overflow:hidden}.hero-sky{background:linear-gradient(180deg,#0b2e52,#1f5f8f 70%,#4c95c2);color:#fff;padding:26px 20px 0;text-align:center}
+.hero-sky h1 em{font-style:normal;color:var(--gold)}.hero-sky .sub{color:#d3e7f3;margin:10px auto 0;max-width:520px;font-size:20px}
+.hero-guide{width:190px;height:190px;margin:6px auto -16px;display:block;animation:bob 3s ease-in-out infinite}
+.hero-body{padding:28px 20px 24px;display:grid;gap:16px;justify-items:center;text-align:center;grid-template-columns:minmax(0,1fr)}.hero-body>*{max-width:100%}.hero-body .say{width:100%}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.chip{background:#e4f3fc;color:#14527b;border-radius:99px;padding:7px 13px;font-size:15px;font-weight:800}
+/* map */
+.stamps-mini{display:flex;gap:5px}.sdot{width:38px;height:38px;border-radius:50%;border:3px dashed #9fbdd0;display:grid;place-items:center;background:#fff;font-size:15px;font-weight:900;color:#7b97aa}.sdot.got{border:3px solid #d49b2f;background:var(--gold);color:#0b3154}.sdot.gold{background:linear-gradient(135deg,#ffe58a,#e0a526);border-color:#a8741a}
+.hlist{display:grid;gap:14px;margin:18px 0}
+.hcard{display:grid;grid-template-columns:110px 1fr;width:100%;text-align:left;padding:0;border:2px solid var(--line);background:#fff;border-radius:22px;box-shadow:var(--shadow);color:inherit;overflow:hidden;min-height:140px}
+.hcard .pic{display:grid;place-items:center;background:linear-gradient(150deg,#ddf3fe,#bfe2f2);font-size:46px}
+.hcard .txt{padding:14px;display:flex;flex-direction:column;gap:3px}.hcard .when{font-size:14px;font-weight:900;color:var(--blue);letter-spacing:.06em;text-transform:uppercase}
+.hcard .ttl{font-size:23px;font-weight:900;line-height:1.15}.hcard .meta{font-size:15px;color:var(--muted);font-weight:700}
+.tag{margin-top:6px;align-self:flex-start;font-size:15px;font-weight:900;background:#0b3154;color:#fff;border-radius:99px;padding:6px 14px}
+.hcard.done{border-color:#9ad8b7;background:#f2fcf6}.hcard.done .tag{background:var(--green)}.hcard.locked{opacity:.55}.hcard.locked .tag{background:#7b8c99}
+.finale-card{background:var(--navy);color:#fff;border-radius:22px;padding:20px;display:grid;gap:12px;text-align:center}.finale-card p{color:#cfe4ee}
+/* hangar */
+.acards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.acard{border:3px solid #b9d6e5;background:#f5fbff;border-radius:20px;padding:8px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:900;font-size:17px;color:#174b6c;text-align:center;line-height:1.15;position:relative}
+.acard svg{width:100%;height:auto}.acard.done{border-color:#1a7a56;background:#e3f8ec}.acard .tick{position:absolute;top:6px;right:6px;background:var(--green);color:#fff;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;font-size:16px}
+.era{display:inline-block;background:var(--gold);color:#0b3154;border-radius:12px;padding:5px 13px;font-weight:950;font-size:17px;margin:6px 0 2px}
+.signs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
+.sign-btn{min-height:116px;border-radius:22px;border:3px solid #b9d6e5;background:#f5fbff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:900;font-size:18px;color:#174b6c}.sign-btn .sym{font-size:50px;line-height:1}
+.sign-btn.wrong{opacity:.45;border-color:#e59a39}
+/* task */
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:14px 0}
+.choice{min-height:140px;border-radius:22px;border:3px solid #b9d6e5;background:#f5fbff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px 6px;color:#174b6c;font-weight:900;font-size:19px;text-align:center;line-height:1.15}
+.choice svg{width:100%;max-width:110px;height:66px}.big{font-size:44px;line-height:1}
+.choice.wrong,.hotspot.wrong{animation:shake .4s;border-color:#e59a39;background:#fff4e4;opacity:.55}
+.choice.show,.hotspot.show{border-color:#1a7a56;background:#e3f8ec;animation:pulse 1.2s ease-in-out infinite}
+.hotspot{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:4px solid #0d618a;background:#fffdf6;color:#103e59;font-weight:950;font-size:23px;box-shadow:0 4px 0 #1e6b8994;display:grid;place-items:center}
+.feedback{margin:6px 0 10px;padding:14px 16px;border-radius:16px;font-weight:800;font-size:20px;background:#fff3e0;color:#654219;border-left:6px solid #e59a39}.feedback.good{background:#e1f6e9;color:#13553d;border-color:#239c6b}
+.fact{background:#eef6fb;border-radius:18px;padding:16px;font-size:20px;font-weight:650;margin:12px 0;text-align:left}.fact strong{color:#0b3154}
+/* stamp */
+.reward{text-align:center;position:relative;overflow:hidden}
+.stamp{width:190px;height:190px;margin:16px auto;border-radius:50%;border:7px solid #c0392b;color:#c0392b;display:grid;place-items:center;transform:rotate(-8deg);animation:stampin .5s cubic-bezier(.2,1.6,.4,1) both;background:#fff;text-align:center;font-weight:950}
+.stamp .sym{font-size:58px;line-height:1}.stamp .l1{font-size:15px;letter-spacing:.08em}.stamp.gold{border-color:#b07a12;color:#8a5a00;background:radial-gradient(circle,#fff6cc,#ffd76a)}
+.confetti{position:absolute;inset:0;pointer-events:none}.confetti i{position:absolute;top:-20px;width:10px;height:16px;border-radius:3px;animation:fall 2.4s linear forwards}
+/* design */
+.preview{position:sticky;top:0;z-index:5;background:radial-gradient(circle at 50% 40%,#e2f6ff,#b7deef);border-radius:22px;display:grid;place-items:center;padding:10px;margin:8px 0 6px;box-shadow:0 6px 14px #0b31541f}
+.preview svg{width:100%;max-width:380px;height:auto}.pname{font-weight:950;font-size:20px;color:#0b3154;min-height:28px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px}
+.opt{min-height:96px;border-radius:18px;border:3px solid #b9d6e5;background:#f5fbff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:900;font-size:15px;color:#174b6c;padding:4px}
+.opt svg{width:88px;height:54px}.opt[aria-pressed=true]{border-color:#0b3154;background:#ffeeb8;box-shadow:inset 0 0 0 2px #0b3154}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}.swatch{width:58px;height:58px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 3px #b9d6e5}.swatch[aria-pressed=true]{box-shadow:0 0 0 5px #0b3154}
+/* certificate */
+.cert{text-align:center;border:6px double #d49b2f}.cert .stamps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:12px 0}
+.mini{width:58px;height:58px;border-radius:50%;border:4px solid #c0392b;display:grid;place-items:center;transform:rotate(-6deg);background:#fff;font-size:26px}.mini.gold{border-color:#b07a12;background:radial-gradient(circle,#fff6cc,#ffd76a)}.mini.skip{opacity:.3}
+.certname{font-size:clamp(30px,7vw,46px);font-weight:950;color:#0b3154;margin:6px 0}
+.settings{margin-top:26px;border-top:1px solid #d4e2eb;padding-top:14px;font-size:16px}.settings summary{cursor:pointer;font-weight:850;color:#1b6189}.settings label{display:flex;gap:10px;align-items:center;margin:10px 0}.settings input[type=checkbox]{width:22px;height:22px}
+.legal{margin-top:24px;border-top:1px solid #d4e2eb;padding-top:12px;color:#547084;font-size:13px;line-height:1.6}
+.error{background:#fff0f0;border:2px solid #e0a0a0;border-radius:16px;padding:18px}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-3deg)}}@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+@keyframes pulse{50%{transform:scale(1.05)}}@keyframes stampin{from{transform:scale(2.4) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(-8deg);opacity:1}}
+@keyframes fall{to{transform:translateY(560px) rotate(540deg);opacity:.2}}
+@media(max-width:560px){body{font-size:18px}.say{grid-template-columns:70px 1fr}.say>svg{width:70px;height:70px}.bubble{font-size:19px}.hcard{grid-template-columns:86px 1fr}.acard{font-size:15px}.choice{min-height:124px;font-size:17px}.swatch{width:50px;height:50px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+@media print{.header,.settings,.legal,.noprint{display:none!important}body{background:#fff}.panel{box-shadow:none}.preview{position:static;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="header"><div class="header-inner"><div class="brand" id="brand"></div><div class="hbtns"><button class="iconbtn" id="soundBtn" type="button" aria-pressed="true">🔊 Sound on</button><button class="iconbtn" data-action="home" type="button">⌂ Home</button></div></div></header>
+<main id="main" class="shell" tabindex="-1"><div id="app"></div><div class="legal" id="legal"></div></main>
+<div class="sr-only" id="announce" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+/* ============================================================
+   MUSEUM TRAIL ENGINE
+   All words, aircraft and signs live in games/<name>.js.
+   Open index.html?game=<name> to load a different game.
+   Default game: raf-london
+   ============================================================ */
+const DEMO_BUILD=true; // Set to false before visitors use it. This removes preview mode.
+const gameId=(new URLSearchParams(location.search).get('game')||'raf-london').replace(/[^a-z0-9-]/gi,'');
+const loader=document.createElement('script');loader.src='games/'+gameId+'.js';
+loader.onload=()=>window.GAME?boot(window.GAME):fail();loader.onerror=fail;document.head.appendChild(loader);
+function fail(){document.getElementById('app').innerHTML=`<div class="error"><h2>Game not found</h2><p>Could not load <code>games/${gameId}.js</code>. Check the file name, and check that the file has no missing commas or quote marks.</p></div>`}
+
+/* ---------------- Drawings ---------------- */
+let UID=0;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const isLight=hex=>{const n=parseInt(hex.slice(1),16);return((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000>150};
+function PENGUIN(){return `<svg viewBox="0 0 200 200" aria-hidden="true"><ellipse cx="100" cy="190" rx="50" ry="7" fill="#0b315422"/><path d="M62 178q-16 6-6 10h30q6-6-4-10Z M138 178q16 6 6 10h-30q-6-6 4-10Z" fill="#f39c34" stroke="#9a5a12" stroke-width="2"/><path d="M48 104Q18 140 34 166Q52 140 58 112Z M152 104Q182 140 166 166Q148 140 142 112Z" fill="#1d2733"/><ellipse cx="100" cy="124" rx="56" ry="62" fill="#1d2733"/><ellipse cx="100" cy="134" rx="38" ry="48" fill="#fff"/><path d="M58 100 Q100 116 142 100 L144 112 Q100 128 56 112Z" fill="#d6413a"/><path d="M128 110 L150 140 L136 142 L122 116Z" fill="#b8322c"/><circle cx="100" cy="62" r="44" fill="#1d2733"/><path d="M100 50 C80 36 62 52 66 72 C70 92 92 94 100 86 C108 94 130 92 134 72 C138 52 120 36 100 50Z" fill="#fff"/><circle cx="86" cy="66" r="7" fill="#14273a"/><circle cx="114" cy="66" r="7" fill="#14273a"/><circle cx="88" cy="64" r="2.5" fill="#fff"/><circle cx="116" cy="64" r="2.5" fill="#fff"/><path d="M90 78 L110 78 L100 92Z" fill="#f39c34" stroke="#9a5a12" stroke-width="2" stroke-linejoin="round"/><circle cx="74" cy="80" r="6" fill="#f7a8b8" opacity=".7"/><circle cx="126" cy="80" r="6" fill="#f7a8b8" opacity=".7"/><path d="M58 40 Q100 20 142 40" stroke="#8a5a2b" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="84" cy="34" r="12" fill="#bfe9ff" stroke="#5a3b1a" stroke-width="5"/><circle cx="116" cy="34" r="12" fill="#bfe9ff" stroke="#5a3b1a" stroke-width="5"/></svg>`}
+function patternDef(id,p,body){const c=isLight(body)?'#00000040':'#ffffffb0';const d={
+ stripes:`<pattern id="${id}" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="16" fill="${c}"/></pattern>`,
+ spots:`<pattern id="${id}" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="4.5" fill="${c}"/></pattern>`,
+ stars:`<pattern id="${id}" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M13 4l2.6 5.6 6 .6-4.5 4 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.5-4 6-.6Z" fill="${c}"/></pattern>`,
+ zigzag:`<pattern id="${id}" width="20" height="14" patternUnits="userSpaceOnUse"><path d="M0 10L5 3 10 10 15 3 20 10" stroke="${c}" stroke-width="3.5" fill="none"/></pattern>`,
+ checks:`<pattern id="${id}" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="${c}"/><rect x="10" y="10" width="10" height="10" fill="${c}"/></pattern>`}[p];return d||''}
+function sticker(k,x,y){const g=s=>`<g transform="translate(${x} ${y})">${s}</g>`;return({
+ roundel:g('<circle r="13" fill="#1f4e8c" stroke="#fff" stroke-width="2"/><circle r="8.5" fill="#fff"/><circle r="4.5" fill="#c0392b"/>'),
+ star:g('<path d="M0-14l4 8.6 9.4 1-7 6.4 2 9.2L0 6.4-8.4 11.2l2-9.2-7-6.4 9.4-1Z" fill="#ffd36d" stroke="#8a5a00" stroke-width="2"/>'),
+ heart:g('<path d="M0 12C-16 2-14-10-7-11-3-11.5 0-8 0-6c0-2 3-5.5 7-5 7 1 9 13-7 23Z" fill="#e8436b" stroke="#7a1430" stroke-width="2"/>'),
+ bolt:g('<path d="M3-15-9 2h7l-3 13 13-18H1l2-12Z" fill="#ffd36d" stroke="#8a5a00" stroke-width="2"/>'),
+ fish:g('<ellipse cx="-2" rx="11" ry="7" fill="#5fb6e0" stroke="#174b6c" stroke-width="2"/><path d="M8 0l9-7v14Z" fill="#5fb6e0" stroke="#174b6c" stroke-width="2"/><circle cx="-7" cy="-2" r="1.8" fill="#14273a"/>')
+ })[k]||''}
+function trail(k,y){if(k==='smoke')return [0,1,2,3,4].map(i=>`<circle cx="${8+i*7}" cy="${y+(i%2?4:-4)}" r="${4+i*1.6}" fill="#fff" opacity="${.35+i*.12}"/>`).join('');
+ if(k==='rainbow')return ['#e74c3c','#f39c12','#f1c40f','#2ecc71','#3498db','#8e44ad'].map((c,i)=>`<path d="M0 ${y-12+i*4.5} Q12 ${y-18+i*4.5} 26 ${y-12+i*4.5} T52 ${y-12+i*4.5}" stroke="${c}" stroke-width="4.6" fill="none"/>`).join('');
+ if(k==='sparkle')return [[8,y-14],[22,y+10],[34,y-6],[12,y+16],[44,y+4]].map(([x,yy],i)=>`<path transform="translate(${x} ${yy}) scale(${.6+i*.12})" d="M0-8 2-2 8 0 2 2 0 8-2 2-8 0-2-2Z" fill="#ffd36d" stroke="#b07a12" stroke-width="1"/>`).join('');return ''}
+const PILOT=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><circle r="7" fill="#1d2733"/><path d="M0-3C-4-6-7-2-6 1-5 5-1 5 0 3 1 5 5 5 6 1 7-2 4-6 0-3Z" fill="#fff"/><path d="M-2 3h4l-2 3Z" fill="#f39c34"/><circle cx="-2.4" cy="0" r="1.1" fill="#14273a"/><circle cx="2.4" cy="0" r="1.1" fill="#14273a"/></g>`;
+const WINGS={curved:'M128 86C118 40 140 10 162 10C182 14 190 50 186 86ZM128 94C118 140 140 170 162 170C182 166 190 130 186 94Z',
+ straight:'M136 86V16Q136 8 146 8H176Q184 8 184 16V86ZM136 94V164Q136 172 146 172H176Q184 172 184 164V94Z',
+ swept:'M120 86L80 12 104 10 196 86ZM120 94L80 168 104 170 196 94Z',delta:'M96 86L176 16 192 18 210 86ZM96 94L176 164 192 162 210 94Z'};
+/* plane(shape, {body, wing, wingShape, pattern, sticker, trail, pilot}) -> SVG. Shapes: fighter trainer jet jetCanard bomber drone rocket biplane triplane helicopter flyingboat */
+function plane(shape,o={}){const b=o.body||'#8a9aa8',w=o.wing||b,st='#14273a',id='p'+(++UID),pat=o.pattern&&o.pattern!=='none';
+ const ov=d=>pat?`<path d="${d}" fill="url(#${id})"/>`:'';let defs=pat?`<defs>${patternDef(id,o.pattern,b)}</defs>`:'',back='',parts='',stk='',top=true;
+ const FUS='M26 84Q26 79 38 79L228 80Q270 82 284 90Q270 98 228 100L38 101Q26 101 26 96Z',TAIL='M44 88L24 60 40 58 70 86ZM44 92L24 120 40 122 70 94Z';
+ const cockpit=(x=236)=>`<ellipse cx="${x}" cy="90" rx="16" ry="8" fill="#a8e3f5" stroke="${st}" stroke-width="3"/>${o.pilot?PILOT(x+2,90,.9):''}`;
+ const prop=x=>`<circle cx="${x}" cy="90" r="6" fill="#ffd36d" stroke="${st}" stroke-width="2"/><path d="M${x+4} 64V116" stroke="${st}" stroke-width="5" stroke-linecap="round"/>`;
+ if(['fighter','trainer'].includes(shape)){const W=WINGS[o.wingShape||'straight'];parts=`<path d="${W}" fill="${w}" stroke="${st}" stroke-width="4"/><path d="${TAIL}" fill="${w}" stroke="${st}" stroke-width="3"/><path d="${FUS}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(FUS)}${cockpit()}${prop(284)}`;stk=[160,138]}
+ else if(shape==='jet'){parts=`<path d="M30 88 L22 92 30 96Z" fill="#ff9f43"/><path d="${WINGS.swept}" fill="${w}" stroke="${st}" stroke-width="4"/><path d="M48 88L28 64 42 62 74 86ZM48 92L28 116 42 118 74 94Z" fill="${w}" stroke="${st}" stroke-width="3"/><path d="${FUS}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(FUS)}${cockpit(240)}`;stk=[140,132]}
+ else if(shape==='jetCanard'){parts=`<path d="M30 88 L22 92 30 96Z" fill="#ff9f43"/><path d="${WINGS.delta}" fill="${w}" stroke="${st}" stroke-width="4"/><path d="M222 86L210 68 219 67 238 86ZM222 94L210 112 219 113 238 94Z" fill="${w}" stroke="${st}" stroke-width="3"/><path d="${FUS}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(FUS)}${cockpit(252)}`;stk=[170,128]}
+ else if(shape==='bomber'){const BW='M140 86V6H172V86ZM140 94V174H172V94Z';parts=`<path d="${BW}" fill="${w}" stroke="${st}" stroke-width="4"/><path d="M40 88L34 56 50 56 64 86ZM40 92L34 124 50 124 64 94Z" fill="${w}" stroke="${st}" stroke-width="3"/>${[34,62,118,146].map(y=>`<rect x="164" y="${y-7}" width="30" height="14" rx="6" fill="${b}" stroke="${st}" stroke-width="3"/><path d="M198 ${y-15}V${y+15}" stroke="${st}" stroke-width="4" stroke-linecap="round"/>`).join('')}<path d="${FUS}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(FUS)}${cockpit(250)}`;stk=[110,90]}
+ else if(shape==='drone'){const DF='M40 86L236 84Q274 86 282 90Q274 94 236 96L40 94Z';parts=`<path d="M148 86L146 4H162L164 86ZM148 94L146 176H162L164 94Z" fill="${w}" stroke="${st}" stroke-width="3"/><path d="M52 88L28 70 38 68 66 88ZM52 92L28 110 38 112 66 92Z" fill="${w}" stroke="${st}" stroke-width="3"/><path d="${DF}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(DF)}<path d="M34 74V106" stroke="${st}" stroke-width="5" stroke-linecap="round"/>`;stk=[155,140]}
+ else if(shape==='rocket'){const RF='M70 82Q70 78 84 78L210 80Q246 84 256 90Q246 96 210 100L84 102Q70 102 70 98Z';parts=`<path d="M70 84L36 90 70 96Z" fill="#ff9f43" stroke="#d35400" stroke-width="2"/><path d="M150 84L96 14 120 12 196 84ZM150 96L96 166 120 168 196 96Z" fill="${w}" stroke="${st}" stroke-width="4"/><path d="${RF}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(RF)}${cockpit(214)}`;stk=[140,130]}
+ else if(shape==='biplane'||shape==='triplane'){top=false;const ys=shape==='triplane'?[22,60,98]:[40,98];const BD='M60 90Q150 70 250 86L262 104Q150 122 52 108Z';
+  parts=`${ys.map(y=>`<rect x="40" y="${y}" width="220" height="15" rx="7" fill="${w}" stroke="${st}" stroke-width="4"/>`).join('')}<path d="M80 ${ys[0]+15}V${ys[ys.length-1]}M220 ${ys[0]+15}V${ys[ys.length-1]}M120 ${ys[0]+15}V${ys[ys.length-1]}M180 ${ys[0]+15}V${ys[ys.length-1]}" stroke="${st}" stroke-width="3"/><path d="M58 92L30 70 24 106Z" fill="${b}" stroke="${st}" stroke-width="4"/><path d="${BD}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(BD)}<path d="M140 84q10-16 22 0" fill="#9ed8ef" stroke="${st}" stroke-width="3"/>${o.pilot?PILOT(151,80,1):''}<circle cx="268" cy="96" r="7" fill="${st}"/><path d="M268 66V126" stroke="${st}" stroke-width="7" stroke-linecap="round"/><path d="M100 118L90 148M200 118L210 148" stroke="${st}" stroke-width="5"/><circle cx="90" cy="150" r="10" fill="#333"/><circle cx="210" cy="150" r="10" fill="#333"/>`;stk=[112,98]}
+ else if(shape==='helicopter'){top=false;const HB='M90 60Q160 50 210 70Q232 90 220 120Q170 138 110 130Q80 120 90 60Z',TB='M92 82L30 76 30 100 94 106Z';
+  parts=`<path d="${TB}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(TB)}<circle cx="30" cy="88" r="13" fill="none" stroke="${w}" stroke-width="5"/><path d="M150 30V58" stroke="${st}" stroke-width="7"/><path d="${HB}" fill="${b}" stroke="${st}" stroke-width="5"/>${ov(HB)}<path d="M180 66Q214 74 218 104L180 104Z" fill="#9ed8ef" stroke="${st}" stroke-width="4"/>${o.pilot?PILOT(198,90,1.1):''}<path d="M30 30H270" stroke="${w}" stroke-width="9" stroke-linecap="round"/><path d="M120 132V142M200 128V142" stroke="${st}" stroke-width="6"/><circle cx="120" cy="146" r="9" fill="#333"/><circle cx="200" cy="146" r="9" fill="#333"/>`;stk=[130,96]}
+ else if(shape==='flyingboat'){top=false;const FH='M30 110C80 92 170 92 250 96L282 102 262 126Q200 148 110 144Q50 140 30 110Z';
+  parts=`<path d="M40 108L22 58 46 58 72 100Z" fill="${b}" stroke="${st}" stroke-width="4"/><path d="${FH}" fill="${b}" stroke="${st}" stroke-width="4"/>${ov(FH)}<path d="M60 128Q160 152 262 124" stroke="${st}" stroke-width="3" fill="none"/>${[150,172,194].map(x=>`<rect x="${x}" y="102" width="14" height="12" rx="3" fill="#3a7897"/>`).join('')}<path d="M246 98Q264 98 274 104L248 108Z" fill="#9ed8ef" stroke="${st}" stroke-width="3"/>${o.pilot?PILOT(256,104,.9):''}<path d="M120 84L250 84 250 74 120 74Z" fill="${w}" stroke="${st}" stroke-width="4"/>${[150,206].map(x=>`<rect x="${x}" y="70" width="24" height="16" rx="6" fill="${b}" stroke="${st}" stroke-width="3"/><path d="M${x+28} 60V96" stroke="${st}" stroke-width="4"/>`).join('')}<path d="M180 84V96" stroke="${st}" stroke-width="4"/>`;stk=[110,118]}
+ if(o.trail&&o.trail!=='none')back=trail(o.trail,top?90:shape==='helicopter'?90:96);
+ const sk=o.sticker&&o.sticker!=='none'&&stk?sticker(o.sticker,stk[0],stk[1]):'';
+ return `<svg viewBox="0 0 300 180" aria-hidden="true">${defs}<ellipse cx="150" cy="172" rx="110" ry="6" fill="#0b315418"/>${back}${parts}${sk}</svg>`}
+function icon(ic){ic=String(ic);const st='#14273a';
+ if(/^\d+$/.test(ic))return `<span class="big" aria-hidden="true">${ic}</span>`;
+ if(ic.startsWith('wing:')){const k=ic.slice(5);return plane(k==='swept'?'jet':k==='delta'?'jetCanard':'fighter',{wingShape:k,body:'#9fb3c0',wing:'#7fa0b4'}).replace('<ellipse cx="150" cy="172" rx="110" ry="6" fill="#0b315418"/>','')}
+ if(ic.startsWith('stack:')){const n=+ic.slice(6),gap=n===3?26:32,y0=n===1?30:n===2?18:6;return `<svg viewBox="0 0 120 72" aria-hidden="true">${Array.from({length:n},(_,i)=>`<rect x="8" y="${y0+i*gap}" width="104" height="11" rx="5" fill="#c9b27c" stroke="#5a4520" stroke-width="3"/>`).join('')}${n>1?`<path d="M34 ${y0+11}V${y0+(n-1)*gap}M86 ${y0+11}V${y0+(n-1)*gap}" stroke="#5a4520" stroke-width="3"/>`:''}</svg>`}
+ if(ic.startsWith('props:')){const n=+ic.slice(6);return `<svg viewBox="0 0 120 72" aria-hidden="true">${Array.from({length:n},(_,i)=>{const x=(120/(n+1))*(i+1);return `<path d="M${x} 16V56" stroke="${st}" stroke-width="5" stroke-linecap="round"/><circle cx="${x}" cy="36" r="5" fill="#ffd36d" stroke="${st}" stroke-width="2"/>`}).join('')}</svg>`}
+ if(ic.startsWith('blades:')){const n=+ic.slice(7);return `<svg viewBox="0 0 120 72" aria-hidden="true">${Array.from({length:n},(_,i)=>`<path d="M60 36L60 6" stroke="${st}" stroke-width="7" stroke-linecap="round" transform="rotate(${i*360/n} 60 36)"/>`).join('')}<circle cx="60" cy="36" r="8" fill="#ffd36d" stroke="${st}" stroke-width="3"/></svg>`}
+ return `<span class="big" aria-hidden="true">${ic}</span>`}
+
+/* ---------------- Game ---------------- */
+function boot(G){
+const H=G.hangars,ALL=H.flatMap(h=>h.aircraft.map(a=>({...a,h:h.id}))),STORE='trail-'+G.id;
+const D=G.design,T=G.text;
+const fresh=()=>({phase:'intro',h:null,a:null,doneA:[],unlocked:[],skipped:[],tries:0,wrong:[],solved:false,demo:true,sound:true,name:'',
+ plane:{shape:'fighter',body:'#1f6fd1',wing:'#f2c230',pattern:'none',sticker:'roundel',trail:'smoke',label:''}});
+let S=fresh();try{const s=JSON.parse(localStorage.getItem(STORE)||'null');if(s&&Array.isArray(s.doneA))S={...fresh(),...s,plane:{...fresh().plane,...s.plane}}}catch(e){}
+if(!DEMO_BUILD)S.demo=false;
+document.title=G.title+' | '+G.museum;document.getElementById('brand').innerHTML=`${esc(G.headerBrand)} <span>/ ${esc(G.headerSub)}</span>`;document.getElementById('legal').textContent=G.legal;
+const app=document.getElementById('app'),announce=document.getElementById('announce'),soundBtn=document.getElementById('soundBtn');
+const save=()=>{try{localStorage.setItem(STORE,JSON.stringify(S))}catch(e){}};
+const hg=id=>H.find(h=>h.id===id)||H[0],ac=id=>ALL.find(a=>a.id===id)||ALL[0];
+const stamped=h=>h.aircraft.some(a=>S.doneA.includes(a.id)),gold=h=>h.aircraft.every(a=>S.doneA.includes(a.id));
+const passed=h=>stamped(h)||S.skipped.includes(h.id);
+const open_=i=>i===0||passed(H[i-1]);
+const allPassed=()=>H.every(passed)&&H.some(stamped);
+const btn=(t,a,k='go',x='')=>`<button type="button" class="btn ${k}" data-action="${a}" ${x}>${t}</button>`;
+const nm=()=>S.name.trim()?esc(S.name.trim()):'';
+function say(){if(!S.sound||!('speechSynthesis'in window))return;speechSynthesis.cancel();const t=[...document.querySelectorAll('[data-say]')].map(e=>e.textContent.trim()).join(' ');if(!t)return;const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.88;u.pitch=1.1;speechSynthesis.speak(u)}
+const sayNow=t=>{if(!S.sound||!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u)};
+const hush=()=>{if('speechSynthesis'in window)speechSynthesis.cancel()};
+const tell=t=>{announce.textContent='';setTimeout(()=>announce.textContent=t,20)};
+const guideSays=lines=>`<div class="say">${PENGUIN()}<div class="bubble" data-say>${lines.map(l=>`<p>${l}</p>`).join('')}</div></div>`;
+const minis=()=>`<div class="stamps-mini" aria-label="Stamps">${H.map((h,i)=>`<span class="sdot ${gold(h)?'got gold':stamped(h)?'got':''}">${stamped(h)?'✓':i+1}</span>`).join('')}</div>`;
+const top=(to='map',label='← Map')=>`<div class="topline noprint"><button class="back" data-action="${to}">${label}</button>${minis()}</div>`;
+const artOf=(a,cls='')=>a.image?`<img src="${esc(a.image)}" alt="Photo of the ${esc(a.name)}">`:plane(a.art,{body:a.body,wing:a.wing,wingShape:a.wingShape});
+
+function intro(){return `<section class="panel hero"><div class="hero-sky"><p class="eyebrow" style="color:#9fe3ee">${esc(G.museum)} · Ages ${esc(G.ages)}</p><h1>${esc(G.title).replace(esc(G.guide.name+"'s"),`<em>${esc(G.guide.name+"'s")}</em>`)}</h1><div class="hero-guide">${PENGUIN()}</div></div><div class="hero-body">${guideSays(T.intro)}<label class="field">${esc(T.namePrompt)}<input id="nameIn" maxlength="20" autocomplete="off" value="${esc(S.name)}" placeholder="Type your name"></label><div class="chips">${T.introChips.map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>${btn('Let’s go! ✈️','start','go wide')}${btn('🔊 Hear again','say','soft')}<div class="grownup"><strong>For grown-ups</strong>${T.introGrown}</div></div></section>${settings()}`}
+function mapPage(){const done=allPassed();return `${top('home','← Start')}<h2>Mission map</h2>${guideSays([done?T.mapDone:(nm()?`Hi ${nm()}! `:'')+T.mapHelp])}<div class="hlist">${H.map((h,i)=>{const st=stamped(h),op=open_(i),n=h.aircraft.filter(a=>S.doneA.includes(a.id)).length;return `<button class="hcard ${st?'done':''} ${op?'':'locked'}" data-action="openH" data-id="${h.id}" aria-label="${esc(h.label)}: ${esc(h.title)}${op?'':' (locked)'}"><span class="pic" aria-hidden="true">${op?G.signs[h.sign].sym:'🔒'}</span><span class="txt"><span class="when">${esc(h.label)} · ${esc(h.era)}</span><span class="ttl">${esc(h.title)}</span><span class="meta">${n} of ${h.aircraft.length} aircraft found${gold(h)?' · ⭐ Gold!':''}</span><span class="tag">${S.skipped.includes(h.id)&&!st?'Skipped':st?'✓ Stamp':op?'Go →':`Finish ${esc(H[i-1].label)} first`}</span></span></button>`}).join('')}</div><div class="finale-card"><h3 style="margin:0">🛩️ ${esc(G.finale.title)}</h3><p>Back in ${esc(G.finale.label)}</p>${done?btn('Design the plane →','design','go wide'):`<p><strong>Get a stamp in every hangar to unlock.</strong></p>`}</div>${settings()}`}
+function hangarPage(){const h=hg(S.h),i=H.indexOf(h),unlocked=S.demo||S.unlocked.includes(h.id);
+ const gate=`<h3>${esc(T.signTitle)}</h3>${guideSays(T.signHelp)}<div class="signs">${Object.entries(G.signs).filter(([k])=>H.some(x=>x.sign===k)).map(([k,v])=>`<button class="sign-btn ${S.wrong.includes(k)?'wrong':''}" data-action="sign" data-v="${k}" aria-label="${esc(v.name)}"><span class="sym" aria-hidden="true">${v.sym}</span>${esc(v.name)}</button>`).join('')}</div>${S.wrong.length?`<div class="feedback" role="alert">${esc(T.signWrong)}</div>`:''}<div class="grownup"><strong>Grown-up tip</strong>The sign also has a QR code. Scan it with your phone camera to open this hangar.${DEMO_BUILD?'<br><button class="btn soft" style="margin-top:10px" data-action="skipSign">Test without a sign</button>':''}</div>`;
+ const list=`<h3 data-say>${esc(T.pickAircraft)}</h3><div class="acards">${h.aircraft.map(a=>{const d=S.doneA.includes(a.id);return `<button class="acard ${d?'done':''}" data-action="openA" data-id="${a.id}">${d?'<span class="tick" aria-hidden="true">✓</span>':''}${a.image?`<img src="${esc(a.image)}" alt="" style="width:100%;border-radius:12px">`:plane(a.art,{body:a.body,wing:a.wing,wingShape:a.wingShape})}<span>${esc(a.name)}</span></button>`}).join('')}</div>`;
+ const next=H[i+1];const nav=stamped(h)?`<div class="row" style="margin-top:12px">${next?btn(`Next: ${esc(next.label)} →`,'openH','go wide',`data-id="${next.id}"`):btn('Design the plane →','design','go wide',allPassed()?'':'disabled')}</div>`:'';
+ return `${top()}<section class="panel"><p class="eyebrow">${esc(h.label)}</p><h2>${esc(h.title)}</h2><span class="era">${esc(h.era)}</span>${guideSays(h.story)}<div class="grownup"><strong>Grown-up tip</strong>${esc(h.grown)}</div>${unlocked?list+nav:gate}${!stamped(h)?`<div style="text-align:center;margin-top:8px"><button class="btn link" data-action="skipH">Hangar closed or too busy? Skip it</button></div>`:''}</section>`}
+function aircraftPage(){const a=ac(S.a),h=hg(a.h),t=a.task,showAns=S.tries>=2&&!S.solved;const cls=v=>(S.wrong.includes(v)?'wrong':'')+(showAns&&v===t.answer?' show':'');
+ const hs=t.type==='hotspot'&&!S.solved?t.options.map(o=>`<button class="hotspot ${cls(o.v)}" style="left:${o.x}%;top:${o.y}%" data-action="answer" data-v="${esc(o.v)}" aria-label="${esc(o.label)}">${esc(o.icon)}</button>`).join(''):'';
+ const firstInHangar=S.solved&&h.aircraft.filter(x=>S.doneA.includes(x.id)).length===1;
+ return `${top('backH',`← ${esc(h.label)}`)}<section class="panel"><p class="eyebrow">${esc(h.label)} · ${esc(a.name)}</p><div class="scene"><div class="art-wrap">${artOf(a)}${hs}</div><span class="note">Look at the real one!</span></div><div class="lookbox"><span class="eyes" aria-hidden="true">👀</span><span data-say>${esc(a.look)}</span></div><h3 data-say>${esc(t.q)}</h3>${S.solved?`<div class="feedback good" role="alert">✓ ${nm()?esc(T.right).replace(/!$/,', '+nm()+'!'):esc(T.right)}</div><div class="fact" data-say>${a.fact}</div><div class="grownup"><strong>Talk together</strong>${esc(a.talk)}</div><div class="row" style="margin-top:14px">${firstInHangar?btn('Get my stamp! →','stamp','go wide'):gold(h)?btn('Gold stamp! →','stamp','go wide'):btn(`Back to ${esc(h.label)} →`,'backH','go wide')}</div>`:`<div class="choices">${t.options.map(o=>`<button class="choice ${cls(o.v)}" data-action="answer" data-v="${esc(o.v)}" aria-label="${esc(o.label)}">${icon(o.icon)}<span>${esc(o.label)}</span></button>`).join('')}</div>${S.wrong.length&&!showAns?`<div class="feedback" role="alert">${esc(T.wrong)}</div>`:''}${showAns?`<div class="feedback" role="alert">${esc(T.showAnswer)}</div>`:''}`}<div class="row noprint" style="margin-top:10px">${btn('🔊 Hear again','say','soft')}</div></section>`}
+function stampPage(){const h=hg(S.h),g=gold(h),cols=['#ffd36d','#d6413a','#1f6fd1','#2f9e6a','#f07cb0'],i=H.indexOf(h),next=H[i+1];
+ return `${top()}<section class="panel reward"><div class="confetti" aria-hidden="true">${Array.from({length:26},(_,k)=>`<i style="left:${(k*37)%100}%;background:${cols[k%5]};animation-delay:${(k%7)*.12}s"></i>`).join('')}</div><p class="eyebrow">${esc(h.label)}</p><h2 data-say>${g?'Wow! A GOLD stamp!':'You got a stamp!'}</h2><div class="stamp ${g?'gold':''}" aria-label="${g?'Gold stamp':'Stamp'} for ${esc(h.label)}"><div><div class="sym" aria-hidden="true">${G.signs[h.sign].sym}</div><div class="l1">${esc(h.label.toUpperCase())}</div>${g?'<div class="l1">⭐ GOLD ⭐</div>':''}</div></div>${guideSays([g?'You found all three aircraft here. Amazing!':'Can you find the other aircraft here too? Or let\'s go to the next hangar!'])}<div class="row" style="justify-content:center">${!g?btn('Find more here','backH','soft'):''}${next?btn(`Next: ${esc(next.label)} →`,'openH','go',`data-id="${next.id}"`):btn('Design the plane →','design','go',allPassed()?'':'disabled')}</div></section>`}
+function opt(group,k,l,preview){return `<button class="opt" data-action="set" data-g="${group}" data-v="${k}" aria-pressed="${S.plane[group]===k}">${preview}<span>${esc(l)}</span></button>`}
+function designPage(){const p=S.plane;const swatch=g=>`<div class="swatches">${D.colours.map(([c,l])=>`<button class="swatch" style="background:${c}" data-action="set" data-g="${g}" data-v="${c}" aria-label="${l}" aria-pressed="${p[g]===c}"></button>`).join('')}</div>`;
+ const base={...p,pilot:true};
+ return `${top()}<section class="panel"><p class="eyebrow">${esc(G.finale.label)}</p><h2>${esc(G.finale.title)}</h2>${guideSays(T.finaleStory)}<div class="preview" id="preview">${plane(p.shape,base)}<div class="pname" id="pname">${esc(p.label)}</div></div><div class="row noprint" style="justify-content:center">${btn('🎲 Surprise me!','random','soft')}</div>
+ <h3>1. Shape</h3><div class="opts">${D.shapes.map(([k,l])=>opt('shape',k,l,plane(k,{...base,trail:'none',sticker:'none'}))).join('')}</div>
+ <h3>2. Body colour</h3>${swatch('body')}<h3>3. Wing colour</h3>${swatch('wing')}
+ <h3>4. Pattern</h3><div class="opts">${D.patterns.map(([k,l])=>opt('pattern',k,l,plane(p.shape,{...base,pattern:k,trail:'none',sticker:'none',pilot:false}))).join('')}</div>
+ <h3>5. Sticker</h3><div class="opts">${D.stickers.map(([k,l])=>opt('sticker',k,l,`<svg viewBox="-20 -20 40 40" aria-hidden="true">${k==='none'?'<path d="M-10-10 10 10M10-10-10 10" stroke="#9fbdd0" stroke-width="4"/>':sticker(k,0,0)}</svg>`)).join('')}</div>
+ <h3>6. Trail</h3><div class="opts">${D.trails.map(([k,l])=>opt('trail',k,l,`<svg viewBox="0 60 60 60" aria-hidden="true">${k==='none'?'<path d="M20 80 40 100M40 80 20 100" stroke="#9fbdd0" stroke-width="4"/>':trail(k,90)}</svg>`)).join('')}</div>
+ <h3>7. Give your plane a name</h3><label class="field"><span class="sr-only">Plane name</span><input id="planeIn" maxlength="18" autocomplete="off" value="${esc(p.label)}" placeholder="e.g. Sky Fish"></label>
+ <div class="row" style="margin-top:18px">${btn('My plane is ready! →','won','go wide')}</div><div class="grownup"><strong>Grown-up tip</strong>${esc(G.finale.grown)}</div></section>`}
+function wonPage(){const p=S.plane,d=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+ return `${top('map','← Map')}<section class="panel cert"><p class="eyebrow">${esc(T.certTitle)}</p><h2>Mission complete!</h2><label class="field noprint" style="margin:12px auto">Your name<input id="nameIn2" maxlength="20" autocomplete="off" value="${esc(S.name)}" placeholder="Type your name"></label><div class="certname" id="certname">${nm()||'Pilot'}</div><p style="font-weight:700">${esc(T.certLine)}</p><div class="stamps">${H.map(h=>`<span class="mini ${gold(h)?'gold':''} ${stamped(h)?'':'skip'}" title="${esc(h.label)}">${G.signs[h.sign].sym}</span>`).join('')}</div><div class="preview" style="position:static">${plane(p.shape,{...p,pilot:true})}<div class="pname">${esc(p.label)}</div></div>${guideSays([`Thank you${nm()?', '+nm():''}! Now I can fly!`])}<p style="font-size:15px;color:#547084">${esc(G.museum)} · ${d}</p><div class="row noprint" style="justify-content:center;margin-top:14px">${btn('🖨️ Print certificate','print','go')}${btn('Change my plane','design','soft')}${btn('Play again','restart','soft')}</div></section>`}
+function settings(){return `<details class="settings noprint"><summary>Settings for grown-ups and staff</summary>${DEMO_BUILD?`<label><input type="checkbox" data-action="toggleDemo" ${S.demo?'checked':''}> Preview mode: skip signs and hangar order (desk testing)</label>`:''}<button class="btn soft" data-action="restart">Start again</button><p style="font-size:14px;color:#547084;margin-top:8px">Progress is saved on this phone only. Nothing is sent anywhere.</p></details>`}
+
+function render(){save();app.innerHTML=({intro,map:mapPage,hangar:hangarPage,aircraft:aircraftPage,stamp:stampPage,design:designPage,won:wonPage}[S.phase]||intro)();
+ soundBtn.textContent=S.sound?'🔊 Sound on':'🔇 Sound off';soundBtn.setAttribute('aria-pressed',S.sound)}
+function go(phase,extra={}){hush();Object.assign(S,extra);S.phase=phase;S.tries=0;S.wrong=[];S.solved=false;render();window.scrollTo(0,0);document.getElementById('main').focus({preventScroll:true});say()}
+function openH(id){const i=H.findIndex(h=>h.id===id);if(i<0)return;if(!open_(i)&&!S.demo){tell('Finish the hangar before first.');sayNow(`Finish ${H[i-1].label} first!`);return}go('hangar',{h:id})}
+function answer(v){if(S.solved)return;const a=ac(S.a);if(v===a.task.answer){S.solved=true;if(!S.doneA.includes(a.id))S.doneA.push(a.id);tell(T.right);render();say()}else{if(!S.wrong.includes(v))S.wrong.push(v);S.tries++;tell(T.wrong);render()}}
+function sign(v){const h=hg(S.h);if(v===h.sign){if(!S.unlocked.includes(h.id))S.unlocked.push(h.id);go('hangar')}else{if(!S.wrong.includes(v))S.wrong.push(v);render()}}
+function rnd(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function scan(){const q=new URLSearchParams(location.search),id=q.get('h'),code=q.get('code'),h=H.find(x=>x.id===id);if(h&&code===h.sign){if(!S.unlocked.includes(id))S.unlocked.push(id);S.h=id;S.phase='hangar';save();const keep=gameId!=='raf-london'?'?game='+gameId:'';history.replaceState(null,'',location.pathname+keep)}}
+scan();
+document.addEventListener('click',e=>{const t=e.target.closest('[data-action]');if(!t||t.disabled)return;const a=t.dataset.action,v=t.dataset.v,id=t.dataset.id;
+ const acts={home:()=>go('intro'),start:()=>go('map'),map:()=>go('map'),say,openH:()=>openH(id),openA:()=>go('aircraft',{a:id}),backH:()=>go('hangar'),
+  skipSign:()=>{if(DEMO_BUILD){S.unlocked.push(S.h);go('hangar')}},sign:()=>sign(v),answer:()=>answer(v),stamp:()=>go('stamp'),
+  skipH:()=>{if(confirm('Skip this hangar? You can come back to it later.')){if(!S.skipped.includes(S.h))S.skipped.push(S.h);const i=H.findIndex(h=>h.id===S.h);H[i+1]?go('hangar',{h:H[i+1].id}):go('map')}},
+  design:()=>{if(allPassed()||S.demo)go('design')},set:()=>{S.plane[t.dataset.g]=v;const y=window.scrollY;render();window.scrollTo(0,y)},
+  random:()=>{S.plane={...S.plane,shape:rnd(D.shapes)[0],body:rnd(D.colours)[0],wing:rnd(D.colours)[0],pattern:rnd(D.patterns)[0],sticker:rnd(D.stickers)[0],trail:rnd(D.trails)[0]};const y=window.scrollY;render();window.scrollTo(0,y)},
+  won:()=>go('won'),print:()=>window.print(),
+  restart:()=>{if(confirm('Start again? This clears progress on this phone.')){const snd=S.sound;S=fresh();S.sound=snd;go('intro')}}};
+ (acts[a]||(()=>{}))()});
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.id==='nameIn'||el.id==='nameIn2'){S.name=el.value.slice(0,20);const c=document.getElementById('certname');if(c)c.textContent=S.name.trim()||'Pilot';save()}
+ if(el.id==='planeIn'){S.plane.label=el.value.slice(0,18);const pn=document.getElementById('pname');if(pn)pn.textContent=S.plane.label;save()}});
+document.addEventListener('change',e=>{if(e.target.matches('[data-action="toggleDemo"]')&&DEMO_BUILD){S.demo=e.target.checked;save()}});
+soundBtn.addEventListener('click',()=>{S.sound=!S.sound;if(!S.sound)hush();render()});
+render();
+}
+</script>
+</body>
+</html>
