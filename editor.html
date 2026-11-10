@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trail editor</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#14273a;background:#eef2f6}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.bar{position:sticky;top:0;z-index:10;background:#14273a;color:#fff;padding:10px 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bar strong{font-size:18px;margin-right:6px}.bar input{width:150px;padding:8px;border-radius:8px;border:0}
+.b{border:0;border-radius:10px;padding:9px 14px;font-weight:800;background:#dfe9f1;color:#14273a}.b.p{background:#ffd36d}.b.s{padding:5px 9px;font-size:14px}.b.d{background:#fde2e0;color:#8a1f17}
+#status{font-size:14px;opacity:.85}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:16px;padding:16px;max-width:1300px;margin:auto}
+.phone{position:sticky;top:70px;height:calc(100vh - 90px);border:10px solid #14273a;border-radius:34px;overflow:hidden;background:#fff}.phone iframe{width:100%;height:100%;border:0}
+details{background:#fff;border:1px solid #d5dfe8;border-radius:14px;margin:0 0 10px;padding:0 14px}details[open]{padding-bottom:12px}
+summary{cursor:pointer;font-weight:850;padding:12px 0;font-size:17px}details details{background:#f7fafc}details details summary{font-size:16px}details details details{background:#fff}
+.f{display:grid;gap:3px;margin:8px 0;font-size:14px;font-weight:700;color:#3d5468}.f input,.f select,.f textarea{width:100%;padding:8px 10px;border:1.5px solid #b8c8d6;border-radius:9px;font-weight:500;color:#14273a;background:#fff}
+.f textarea{min-height:76px;resize:vertical}.f input[type=color]{padding:2px;height:38px}.f small{font-weight:500;color:#6b7f90}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 12px}.g3{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+.rowx{display:flex;gap:6px;align-items:center;margin:6px 0;flex-wrap:wrap}.rowx input[type=text],.rowx input[type=number]{padding:7px 8px;border:1.5px solid #b8c8d6;border-radius:8px;min-width:0}
+.rowx .ic{width:92px}.rowx .lb{flex:1 1 120px}.rowx .xy{width:64px}
+.tools{float:right;display:flex;gap:4px;margin-top:-2px}
+.lvl{border-left:4px solid #ffd36d;padding:2px 0 2px 12px;margin:12px 0}.lvl h4{margin:0 0 4px;font-size:15px}
+.probs{background:#fff8e6;border:1.5px solid #f0d9a6;border-radius:12px;padding:10px 14px;margin:0 0 10px;font-size:14px}.probs.ok{background:#e6f7ee;border-color:#9ad8b7}.probs ul{margin:4px 0 0;padding-left:18px}
+.help{font-size:14px;color:#4c6275;margin:0 0 10px}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.phone{position:static;height:720px;max-width:410px;margin:auto}}
+</style>
+</head>
+<body>
+<div class="bar"><strong>Trail editor</strong><label>Trail <input id="gid" value="demo" aria-label="Trail file name"></label><button class="b" id="open">Open</button><button class="b p" id="dl">⬇ Download trail file</button><button class="b" id="discard">Undo all my changes</button><span id="status"></span></div>
+<div class="wrap"><div><p class="help">Change anything on the left. The phone on the right updates by itself. When you are happy, press <b>Download trail file</b> and put the file in the <code>games</code> folder (see README). Your work is also kept in this browser until you download it.</p><div id="probs"></div><div id="form"></div></div><div class="phone"><iframe id="pv" title="Phone preview"></iframe></div></div>
+<script>
+'use strict';
+let G=null,fileId='demo',openSet=new Set(['trail']),timer=null;
+const $=id=>document.getElementById(id),form=$('form');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const get=p=>p.split('.').reduce((o,k)=>o==null?o:o[k],G);
+const set=(p,v)=>{const ks=p.split('.'),last=ks.pop(),o=ks.reduce((o,k)=>o[k]??(o[k]={}),G);if(v===undefined)delete o[last];else o[last]=v};
+const uid=p=>p+Math.random().toString(36).slice(2,7);
+const SIGNS=['sun','cloud','rainbow','moon','star','rocket','heart','tree','fish','leaf','key','crown','bell','apple','flower','drop'];
+const ARTS=['','fighter','trainer','jet','jetCanard','bomber','drone','rocket','biplane','triplane','helicopter','flyingboat'];
+const TYPES={choice:'Pick the answer',hotspot:'Tap the right spot on the picture',count:'Count it (+ and − buttons)',spy:'I-spy checklist (tick what you find)',order:'Put in order',match:'Match the pairs',code:'Type the answer (read a label)',estimate:'Best guess slider'};
+const TPL={choice:{options:[{label:'Answer 1',icon:'1'},{label:'Answer 2',icon:'2'},{label:'Answer 3',icon:'3'}],answer:1},hotspot:{options:[{label:'Part 1',x:30,y:30},{label:'Part 2',x:50,y:50},{label:'Part 3',x:70,y:70}],answer:1},count:{answer:3,max:10},spy:{options:[{label:'Thing 1',icon:'👀'},{label:'Thing 2',icon:'👀'},{label:'Thing 3',icon:'👀'}],need:2},order:{items:['First','Second','Third']},match:{pairs:[['A','Goes with A'],['B','Goes with B'],['C','Goes with C']]},code:{answer:'answer',hint:''},estimate:{min:0,max:100,step:1,answer:50,tolerance:5,unit:''}};
+
+/* ---------- form pieces ---------- */
+const inp=(p,label,type='text',help='')=>`<label class="f"><span>${label}</span><input type="${type}" data-p="${p}" value="${esc(get(p)??'')}">${help?`<small>${help}</small>`:''}</label>`;
+const area=(p,label,help='One line each.')=>`<label class="f"><span>${label}</span><textarea data-p="${p}" data-lines="1">${esc((get(p)||[]).join('\n'))}</textarea><small>${help}</small></label>`;
+const sel=(p,label,opts,re='')=>`<label class="f"><span>${label}</span><select data-p="${p}" ${re}>${opts.map(o=>{const[v,l]=Array.isArray(o)?o:[o,o||'(none)'];return `<option value="${esc(v)}" ${String(get(p)??'')===String(v)?'selected':''}>${esc(l)}</option>`}).join('')}</select></label>`;
+const det=(k,title,body,tools='')=>`<details data-k="${k}" ${openSet.has(k)?'open':''}><summary>${title}${tools?`<span class="tools">${tools}</span>`:''}</summary>${openSet.has(k)?body():''}</details>`;
+const tools=(p,i,n)=>`${i>0?`<button class="b s" data-act="up" data-p="${p}" data-i="${i}" title="Move up">↑</button>`:''}${i<n-1?`<button class="b s" data-act="down" data-p="${p}" data-i="${i}" title="Move down">↓</button>`:''}<button class="b s d" data-act="del" data-p="${p}" data-i="${i}" title="Delete">✕</button>`;
+
+function optRows(p,t){const hs=t.type==='hotspot',pick=t.type!=='spy';return `<div><b style="font-size:14px">Answers</b>${pick?' <small>(tick the correct one)</small>':''}${(t.options||[]).map((o,i)=>`<div class="rowx">${pick?`<input type="radio" name="${p}" data-act="correct" data-p="${p}" data-i="${i+1}" ${+t.answer===i+1?'checked':''} title="Correct answer">`:''}${hs?'':`<input class="ic" type="text" data-p="${p}.options.${i}.icon" value="${esc(o.icon??'')}" placeholder="picture" title="Emoji, number, or stack:2 props:4 blades:3 wing:curved">`}<input class="lb" type="text" data-p="${p}.options.${i}.label" value="${esc(o.label??'')}" placeholder="text">${hs?`<input class="xy" type="number" data-p="${p}.options.${i}.x" value="${esc(o.x??50)}" title="Across %"><input class="xy" type="number" data-p="${p}.options.${i}.y" value="${esc(o.y??50)}" title="Down %">`:''}<button class="b s d" data-act="del" data-p="${p}.options" data-i="${i}">✕</button></div>`).join('')}<button class="b s" data-act="addopt" data-p="${p}">+ Add answer</button>${hs?'<br><small>Numbers are the circle position: % across, % down.</small>':'<br><small>Picture: an emoji, a number, or stack:2 · props:4 · blades:3 · wing:curved</small>'}</div>`}
+function taskForm(p,lv){const t=get(p);let h=`<div class="lvl"><h4>${esc(lv.emoji||'')} ${esc(lv.label||lv.id)}</h4><label class="f"><span>Game</span><select data-act="tasktype" data-p="${p}"><option value="">No game at this level (hidden)</option>${Object.entries(TYPES).map(([k,l])=>`<option value="${k}" ${t&&t.type===k?'selected':''}>${l}</option>`).join('')}</select></label>`;
+ if(t){h+=inp(p+'.q','Question');
+  if(['choice','hotspot','spy'].includes(t.type))h+=optRows(p,t);
+  if(t.type==='spy')h+=inp(p+'.need','How many must they find?','number');
+  if(t.type==='count')h+=`<div class="g">${inp(p+'.answer','Correct number','number')}${inp(p+'.max','Highest number allowed','number')}</div>`;
+  if(t.type==='order')h+=area(p+'.items','Items, in the CORRECT order','One per line. The game shuffles them.');
+  if(t.type==='match')h+=`<label class="f"><span>Pairs</span><textarea data-p="${p}.pairs" data-pairs="1">${esc((t.pairs||[]).map(x=>x.join(' = ')).join('\n'))}</textarea><small>One pair per line, like: Mars = The red planet</small></label>`;
+  if(t.type==='code')h+=`<div class="g">${inp(p+'.answer','Correct answer','text','More than one? Separate with | like 3|three')}${inp(p+'.hint','Hint (after a wrong try)')}</div>`;
+  if(t.type==='estimate')h+=`<div class="g g3">${inp(p+'.answer','Correct','number')}${inp(p+'.tolerance','Close enough ±','number')}${inp(p+'.min','Slider from','number')}${inp(p+'.max','Slider to','number')}${inp(p+'.step','Step','number')}${inp(p+'.unit','Unit')}</div>`;
+  h+=`<div class="g">${inp(p+'.look','Look prompt for this level (optional)')}${inp(p+'.fact','Fact for this level (optional)')}</div>`}
+ return h+'</div>'}
+function stopForm(p){const s=get(p);return `<div class="g">${inp(p+'.name','Name')}${inp(p+'.emoji','Picture: emoji')}${inp(p+'.image','Picture: photo link','text','Optional. e.g. images/whale.jpg')}</div>
+ <div class="g g3">${sel(p+'.art','Picture: aircraft drawing',ARTS)}${inp(p+'.body','Drawing colour','color')}${inp(p+'.wing','Wing colour','color')}${sel(p+'.wingShape','Wing shape',['','straight','curved','swept','delta'])}</div>
+ ${inp(p+'.look','Look prompt (what to find)')}${inp(p+'.fact','Fact (shown after a correct answer)','text','You can use &lt;strong&gt;bold&lt;/strong&gt;.')}${inp(p+'.talk','Talk together (question for the family)')}
+ ${G.levels.map(l=>taskForm(`${p}.tasks.${l.id}`,l)).join('')}`}
+function zoneForm(p){const z=get(p),n=(z.stops||[]).length;return `<div class="g">${inp(p+'.label','Place name')}${inp(p+'.title','Chapter title')}${inp(p+'.era','Badge text (optional)')}${sel(p+'.sign','Sign picture',SIGNS)}</div>${area(p+'.story','What the guide says here')}${inp(p+'.grown','Grown-up tip')}
+ <h4 style="margin:12px 0 6px">Stops</h4>${(z.stops||[]).map((s,i)=>det(`${p}.stops.${i}`,`${esc(s.emoji||'')} ${esc(s.name||'New stop')}`,()=>stopForm(`${p}.stops.${i}`),tools(p+'.stops',i,n))).join('')}<button class="b s" data-act="addstop" data-p="${p}.stops">+ Add stop</button>`}
+function renderForm(){const nz=G.zones.length;form.innerHTML=
+ det('trail','1. Trail and brand',()=>`<div class="g">${inp('title','Trail title')}${inp('museum','Museum name')}${inp('id','Trail file name','text','Lower case, no spaces. e.g. science-museum')}</div>
+  <div class="g">${inp('brand.header','Header text')}${inp('brand.sub','Header small text')}${inp('brand.logo','Logo link (optional)')}</div>
+  <div class="g">${inp('guide.name','Guide character name')}${sel('guide.character','Guide character',[['penguin','Penguin'],['robot','Robot']])}${inp('guide.image','Or your own character picture link')}</div>
+  <div class="g g3">${inp('theme.primary','Main colour','color')}${inp('theme.accent','Button colour','color')}${inp('theme.link','Link colour','color')}${inp('theme.background','Background','color')}</div>
+  <div class="g g3">${inp('words.zone','One area is a…')}${inp('words.zones','Many areas are…')}${inp('words.stop','One stop is a…')}${inp('words.stops','Many stops are…')}</div>${inp('legal','Small print at the bottom')}`)
+ +det('levels','2. Age groups',()=>`<p class="help">Each stop can have a different game for each age group. A stop with no game for a group is hidden for that group.</p>${G.levels.map((l,i)=>`<div class="g g3" style="border-bottom:1px solid #e3eaf0;padding-bottom:6px">${inp(`levels.${i}.label`,'Name')}${inp(`levels.${i}.emoji`,'Emoji')}${inp(`levels.${i}.stopsToPass`,'Stops needed per area','number')}${inp(`levels.${i}.showAnswerAfter`,'Show answer after tries','number')}${sel(`levels.${i}.readAloud`,'Read aloud',[['true','On'],['false','Off']])}<div class="f"><span>&nbsp;</span>${G.levels.length>1?`<button class="b s d" data-act="del" data-p="levels" data-i="${i}">Delete group</button>`:''}</div></div>`).join('')}<button class="b s" data-act="addlevel" style="margin-top:8px">+ Add age group</button>`)
+ +det('text','3. Words the guide says',()=>`${area('text.intro','Welcome speech')}${inp('text.introGrown','Note for grown-ups on the first screen')}${area('text.introChips','Extra info chips on the first screen')}${inp('text.certTitle','Certificate heading')}${inp('text.certLine','Certificate line (after the child\'s name)')}${inp('text.certThanks','Guide\'s thank you')}`)
+ +`<h3 style="margin:16px 0 8px">4. Areas and stops</h3>`+G.zones.map((z,i)=>det(`zones.${i}`,`${i+1}. ${esc(z.label||'New area')} <small style="font-weight:500">· ${(z.stops||[]).length} stops</small>`,()=>zoneForm(`zones.${i}`),tools('zones',i,nz))).join('')+`<button class="b" data-act="addzone" style="margin-bottom:14px">+ Add area</button>`
+ +det('finale','5. The ending',()=>`<div class="g">${sel('finale.type','Ending activity',[['badge','Design a badge'],['plane','Design a plane'],['none','Certificate only']])}${inp('finale.title','Title')}${inp('finale.label','Where (optional)')}</div>${area('finale.story','What the guide says')}${inp('finale.grown','Grown-up tip (optional)')}`);
+ problems()}
+
+/* ---------- checks ---------- */
+function problems(){const e=[],seen={};
+ G.zones.forEach(z=>{const n=z.label||'An area';if(!z.sign)e.push(`${n}: choose a sign picture.`);else if(seen[z.sign])e.push(`${n}: uses the same sign picture as ${seen[z.sign]}.`);else seen[z.sign]=n;
+  if(!(z.stops||[]).length)e.push(`${n}: has no stops.`);
+  (z.stops||[]).forEach(s=>{const sn=s.name||'A stop';if(!s.tasks||!Object.keys(s.tasks).length)e.push(`${sn}: has no game.`);
+   Object.entries(s.tasks||{}).forEach(([l,t])=>{const w=`${sn} (${l})`;if(!t.q)e.push(`${w}: question is empty.`);
+    if(['choice','hotspot'].includes(t.type)&&!((t.options||[])[t.answer-1]))e.push(`${w}: tick the correct answer.`);
+    if(['choice','hotspot','spy'].includes(t.type)&&(t.options||[]).length<2)e.push(`${w}: needs at least 2 answers.`);
+    if(t.type==='order'&&(t.items||[]).length<2)e.push(`${w}: needs at least 2 items.`);
+    if(t.type==='match'&&((t.pairs||[]).length<2||(t.pairs||[]).some(x=>x.length!==2||!x[1])))e.push(`${w}: each line needs "left = right".`);
+    if(t.type==='code'&&!String(t.answer||'').trim())e.push(`${w}: answer is empty.`);
+    if(t.type==='estimate'&&!(+t.min<=+t.answer&&+t.answer<=+t.max))e.push(`${w}: the answer must be between the slider ends.`)})})});
+ $('probs').innerHTML=e.length?`<div class="probs"><b>⚠ ${e.length} thing${e.length>1?'s':''} to fix</b><ul>${e.slice(0,12).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:`<div class="probs ok"><b>✓ No problems found</b></div>`;return e}
+
+/* ---------- preview, save ---------- */
+function changed(){try{localStorage.setItem('trail-editor-'+fileId,JSON.stringify(G))}catch(e){}$('status').textContent='Changes kept in this browser. Download to save.';clearTimeout(timer);timer=setTimeout(preview,600);problems()}
+function preview(){$('pv').src='index.html?preview=1&t='+Date.now()}
+window.addEventListener('message',e=>{if(e.source===$('pv').contentWindow&&e.data&&e.data.type==='trail-ready'&&G)$('pv').contentWindow.postMessage({type:'trail-preview',game:G},'*')});
+function normalise(g){g.brand=g.brand||{};g.guide=g.guide||{name:'Guide',character:'penguin'};g.theme={primary:'#071d35',accent:'#ffd36d',link:'#145d94',background:'#eaf3f7',...(g.theme||{})};g.words=g.words||{};g.text=g.text||{};g.zones=g.zones||[];g.finale=g.finale||{type:'none'};if(!g.levels||!g.levels.length)g.levels=[{id:'junior',label:'Ages 4–8',emoji:'🐣',stopsToPass:1,showAnswerAfter:2,readAloud:true}];return g}
+function load(id,fromFile){fileId=id.replace(/[^a-z0-9-]/gi,'')||'demo';$('gid').value=fileId;let draft=null;try{draft=JSON.parse(localStorage.getItem('trail-editor-'+fileId)||'null')}catch(e){}
+ if(draft&&!fromFile){G=normalise(draft);$('status').textContent='Opened your unsaved changes.';renderForm();preview();return}
+ delete window.GAME;const s=document.createElement('script');s.src=`games/${fileId}.js?t=${Date.now()}`;
+ s.onload=()=>{G=normalise(JSON.parse(JSON.stringify(window.GAME)));$('status').textContent=`Opened games/${fileId}.js`;renderForm();preview()};
+ s.onerror=()=>{$('status').textContent=`Could not find games/${fileId}.js`};document.head.appendChild(s)}
+$('open').onclick=()=>load($('gid').value);
+$('discard').onclick=()=>{if(confirm('Throw away your changes and reload the saved file?')){localStorage.removeItem('trail-editor-'+fileId);load(fileId,true)}};
+$('dl').onclick=()=>{const e=problems();if(e.length&&!confirm(`There ${e.length>1?'are':'is'} ${e.length} thing${e.length>1?'s':''} to fix. Download anyway?`))return;G.id=(G.id||fileId).toLowerCase().replace(/[^a-z0-9-]/g,'-');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['window.GAME = '+JSON.stringify(G,null,2)+';\n'],{type:'text/javascript'}));a.download=G.id+'.js';a.click();$('status').textContent=`Downloaded ${G.id}.js. Put it in the games folder.`};
+
+/* ---------- events ---------- */
+form.addEventListener('toggle',e=>{const k=e.target.dataset&&e.target.dataset.k;if(!k)return;const was=openSet.has(k);e.target.open?openSet.add(k):openSet.delete(k);if(e.target.open&&!was)renderForm()},true);
+form.addEventListener('input',e=>{const el=e.target,p=el.dataset.p;if(!p||el.dataset.act)return;let v=el.value;
+ if(el.dataset.lines)v=v.split('\n').map(x=>x.trim()).filter(Boolean);
+ else if(el.dataset.pairs)v=v.split('\n').map(x=>x.split('=').map(y=>y.trim())).filter(x=>x[0]).map(x=>[x[0],x.slice(1).join('=')]);
+ else if(el.type==='number')v=v===''?undefined:+v;
+ else if(p.endsWith('.readAloud'))v=v==='true';
+ set(p,v);changed();if(el.tagName==='SELECT')renderForm()});
+form.addEventListener('change',e=>{const el=e.target,a=el.dataset.act,p=el.dataset.p;
+ if(a==='tasktype'){const old=get(p)||{};if(!el.value)set(p,undefined);else{const ks=p.split('.');const stop=get(ks.slice(0,-2).join('.'));stop.tasks=stop.tasks||{};set(p,{type:el.value,q:old.q||'',...JSON.parse(JSON.stringify(TPL[el.value])),...(old.look?{look:old.look}:{}),...(old.fact?{fact:old.fact}:{})})}changed();renderForm()}
+ if(a==='correct'){set(p+'.answer',+el.dataset.i);changed()}});
+form.addEventListener('click',e=>{const b=e.target.closest('button[data-act]');if(!b)return;e.preventDefault();const a=b.dataset.act,p=b.dataset.p,i=+b.dataset.i,arr=p?get(p):null;
+ const shift=(from,to)=>{const ks=[...openSet].filter(k=>k===`${p}.${from}`||k.startsWith(`${p}.${from}.`));ks.forEach(k=>{openSet.delete(k)});return ks.map(k=>`${p}.${to}`+k.slice(`${p}.${from}`.length))};
+ if(a==='del'){if(!confirm('Delete this?'))return;arr.splice(i,1);[...openSet].filter(k=>k.startsWith(p+'.')).forEach(k=>openSet.delete(k));
+  if(p.endsWith('.options')){const tp=p.slice(0,-8),t=get(tp);if(t.answer>arr.length)t.answer=1}
+  if(p==='levels'){const ids=G.levels.map(l=>l.id);G.zones.forEach(z=>z.stops.forEach(s=>Object.keys(s.tasks||{}).forEach(k=>{if(!ids.includes(k))delete s.tasks[k]})))}}
+ if(a==='up'||a==='down'){const j=a==='up'?i-1:i+1;[arr[i],arr[j]]=[arr[j],arr[i]];const x=shift(i,'§'),y=shift(j,i);x.map(k=>k.replace('§',j)).concat(y).forEach(k=>openSet.add(k))}
+ if(a==='addzone'){G.zones.push({id:uid('z'),label:'New area',title:'',era:'',sign:SIGNS.find(s=>!G.zones.some(z=>z.sign===s))||'sun',story:[],grown:'',stops:[]});openSet.add('zones.'+(G.zones.length-1))}
+ if(a==='addstop'){const l=G.levels[0].id;arr.push({id:uid('s'),name:'New stop',emoji:'⭐',image:'',look:'',fact:'',talk:'',tasks:{[l]:{type:'choice',q:'',...JSON.parse(JSON.stringify(TPL.choice))}}});openSet.add(`${p}.${arr.length-1}`)}
+ if(a==='addopt'){const t=get(p);t.options=t.options||[];t.options.push(t.type==='hotspot'?{label:'',x:50,y:50}:{label:'',icon:''})}
+ if(a==='addlevel'){G.levels.push({id:uid('lv'),label:'New group',emoji:'⭐',stopsToPass:1,showAnswerAfter:2,readAloud:true})}
+ changed();renderForm()});
+load(new URLSearchParams(location.search).get('game')||'demo');
+</script>
+</body>
+</html>

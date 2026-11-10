@@ -1,15 +1,41 @@
 window.GAME = {
-  "id": "raf-london-percy-v3",
+  "id": "raf-london",
   "title": "Percy's Flying Mission",
   "museum": "RAF Museum London",
   "ages": "4–8",
-  "headerBrand": "RAF MUSEUM",
-  "headerSub": "SECRET MISSIONS",
-  "legal": "Prototype for RAF Museum London, ages 4–8. Percy is a made-up character. Drawings are simple and not accurate. Aircraft locations were checked on public sources in November 2026; route, sign places, viewing points and all facts must be checked by Museum staff before use. Do not touch the aircraft or climb barriers. Children must stay with their grown-up.",
+  "lang": "en-GB",
+  "brand": {
+    "header": "RAF MUSEUM",
+    "sub": "SECRET MISSIONS",
+    "logo": ""
+  },
   "guide": {
     "name": "Percy",
-    "character": "penguin"
+    "character": "penguin",
+    "image": ""
   },
+  "theme": {
+    "primary": "#071d35",
+    "accent": "#ffd36d",
+    "link": "#145d94",
+    "background": "#eaf3f7"
+  },
+  "words": {
+    "zone": "hangar",
+    "zones": "hangars",
+    "stop": "aircraft",
+    "stops": "aircraft"
+  },
+  "levels": [
+    {
+      "id": "junior",
+      "label": "Ages 4–8",
+      "emoji": "🐣",
+      "stopsToPass": 1,
+      "showAnswerAfter": 2,
+      "readAloud": true
+    }
+  ],
   "text": {
     "intro": [
       "Hello! I am Percy the penguin.",
@@ -17,8 +43,6 @@ window.GAME = {
       "The RAF has been flying for over 100 years. Will you help me learn how they do it?"
     ],
     "introChips": [
-      "5 hangars",
-      "15 aircraft",
       "About 1 hour, to test",
       "Bring a grown-up"
     ],
@@ -26,206 +50,19 @@ window.GAME = {
     "namePrompt": "What is your name, pilot?",
     "mapHelp": "Visit the hangars in order. Find at least one aircraft in each hangar to get a stamp.",
     "mapDone": "You got a stamp from every hangar! Now let's design my plane.",
-    "signTitle": "Find Percy's sign",
-    "signHelp": [
-      "Look for my sign in this hangar.",
-      "What picture is on it? Tap the same picture."
-    ],
-    "signWrong": "Not that one. Look at the sign again!",
-    "pickAircraft": "Which aircraft will you find? Find one to get a stamp. Find all three for a gold stamp!",
-    "wrong": "Good try! Look at the real one again 👀",
-    "showAnswer": "Here is a clue: try the green one!",
-    "right": "Yes! Well done!",
-    "finaleStory": [
-      "I can't fly with my flippers...",
-      "...but I CAN fly in a plane!",
-      "Will you design a plane for me?"
-    ],
+    "pickStop": "Which aircraft will you find? Find one to get a stamp. Find all three for a gold stamp!",
+    "stampMore": "Can you find the other aircraft here too? Or let's go to the next hangar!",
+    "stampGold": "You found all the aircraft here. Amazing!",
     "certTitle": "Official Flying Mission crew",
-    "certLine": "helped Percy learn to fly through the RAF story."
+    "certLine": "helped Percy learn to fly through the RAF story.",
+    "certThanks": "Thank you! Now I can fly"
   },
-  "signs": {
-    "sun": {
-      "sym": "☀️",
-      "name": "Sun"
-    },
-    "cloud": {
-      "sym": "☁️",
-      "name": "Cloud"
-    },
-    "rainbow": {
-      "sym": "🌈",
-      "name": "Rainbow"
-    },
-    "moon": {
-      "sym": "🌙",
-      "name": "Moon"
-    },
-    "star": {
-      "sym": "⭐",
-      "name": "Star"
-    },
-    "rocket": {
-      "sym": "🚀",
-      "name": "Rocket"
-    },
-    "heart": {
-      "sym": "❤️",
-      "name": "Heart"
-    },
-    "tree": {
-      "sym": "🌳",
-      "name": "Tree"
-    }
-  },
-  "finale": {
-    "label": "Hangar 1",
-    "title": "Design Percy's plane",
-    "grown": "Hangar 1 also has a real \"Design your own plane\" activity in First to the Future."
-  },
-  "design": {
-    "shapes": [
-      [
-        "fighter",
-        "Propeller"
-      ],
-      [
-        "jet",
-        "Fast jet"
-      ],
-      [
-        "biplane",
-        "Biplane"
-      ],
-      [
-        "helicopter",
-        "Helicopter"
-      ],
-      [
-        "flyingboat",
-        "Flying boat"
-      ],
-      [
-        "rocket",
-        "Rocket plane"
-      ]
-    ],
-    "colours": [
-      [
-        "#d6413a",
-        "Red"
-      ],
-      [
-        "#f07a2a",
-        "Orange"
-      ],
-      [
-        "#f2c230",
-        "Yellow"
-      ],
-      [
-        "#2f9e6a",
-        "Green"
-      ],
-      [
-        "#1f6fd1",
-        "Blue"
-      ],
-      [
-        "#8a4fd8",
-        "Purple"
-      ],
-      [
-        "#f07cb0",
-        "Pink"
-      ],
-      [
-        "#f4f4f4",
-        "White"
-      ],
-      [
-        "#2b2f36",
-        "Black"
-      ]
-    ],
-    "patterns": [
-      [
-        "none",
-        "Plain"
-      ],
-      [
-        "stripes",
-        "Stripes"
-      ],
-      [
-        "spots",
-        "Spots"
-      ],
-      [
-        "stars",
-        "Stars"
-      ],
-      [
-        "zigzag",
-        "Zigzag"
-      ],
-      [
-        "checks",
-        "Checks"
-      ]
-    ],
-    "stickers": [
-      [
-        "none",
-        "None"
-      ],
-      [
-        "roundel",
-        "Roundel"
-      ],
-      [
-        "star",
-        "Star"
-      ],
-      [
-        "heart",
-        "Heart"
-      ],
-      [
-        "bolt",
-        "Lightning"
-      ],
-      [
-        "fish",
-        "Fish"
-      ]
-    ],
-    "trails": [
-      [
-        "none",
-        "None"
-      ],
-      [
-        "smoke",
-        "Smoke"
-      ],
-      [
-        "rainbow",
-        "Rainbow"
-      ],
-      [
-        "sparkle",
-        "Sparkles"
-      ]
-    ]
-  },
-  "_help": "Trail-wide settings. Hangars and aircraft come from Webflow CMS (run the 'Sync from Webflow' action). Edit words here, keep quote marks and commas.",
-  "hangars": [
+  "zones": [
     {
       "id": "h1",
       "label": "Hangar 1",
-      "era": "1918 to 2018",
       "title": "The RAF story begins",
+      "era": "1918 to 2018",
       "sign": "sun",
       "story": [
         "We are in Hangar 1. This is where the RAF story starts.",
@@ -233,7 +70,7 @@ window.GAME = {
         "Let's find three amazing aircraft."
       ],
       "grown": "Hangar 1 shows RAF Stories, the first 100 years. The Spitfire may be displayed high up, so look up together.",
-      "aircraft": [
+      "stops": [
         {
           "id": "seaking",
           "name": "Sea King",
@@ -242,36 +79,32 @@ window.GAME = {
           "wing": "#1f3b57",
           "image": "",
           "look": "Find the big yellow rescue helicopter.",
-          "task": {
-            "type": "hotspot",
-            "q": "Tap the part that spins round to lift the helicopter up.",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "Top blades",
-                "icon": "1",
-                "x": 50.0,
-                "y": 17.0
-              },
-              {
-                "v": "2",
-                "label": "Body",
-                "icon": "2",
-                "x": 52.0,
-                "y": 54.0
-              },
-              {
-                "v": "3",
-                "label": "Tail",
-                "icon": "3",
-                "x": 16.0,
-                "y": 46.0
-              }
-            ]
-          },
           "fact": "The rotor blades spin very fast. They lift the helicopter straight up. Sea Kings rescued people from the sea and the mountains.",
-          "talk": "Who do you think the rescue crew helped?"
+          "talk": "Who do you think the rescue crew helped?",
+          "tasks": {
+            "junior": {
+              "type": "hotspot",
+              "q": "Tap the part that spins round to lift the helicopter up.",
+              "options": [
+                {
+                  "label": "Top blades",
+                  "x": 50.0,
+                  "y": 17.0
+                },
+                {
+                  "label": "Body",
+                  "x": 52.0,
+                  "y": 54.0
+                },
+                {
+                  "label": "Tail",
+                  "x": 16.0,
+                  "y": 46.0
+                }
+              ],
+              "answer": 1
+            }
+          }
         },
         {
           "id": "spitfire5",
@@ -281,30 +114,29 @@ window.GAME = {
           "wing": "#6f7f5f",
           "image": "",
           "look": "Find the Spitfire. You may need to look up!",
-          "task": {
-            "type": "choice",
-            "q": "What shape are the Spitfire's wings?",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "Curved",
-                "icon": "wing:curved"
-              },
-              {
-                "v": "2",
-                "label": "Triangle",
-                "icon": "wing:delta"
-              },
-              {
-                "v": "3",
-                "label": "Straight",
-                "icon": "wing:straight"
-              }
-            ]
-          },
           "fact": "The Spitfire's curved wings are famous all over the world.",
           "talk": "Can you draw the wing shape in the air with your finger?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "What shape are the Spitfire's wings?",
+              "options": [
+                {
+                  "label": "Curved",
+                  "icon": "wing:curved"
+                },
+                {
+                  "label": "Triangle",
+                  "icon": "wing:delta"
+                },
+                {
+                  "label": "Straight",
+                  "icon": "wing:straight"
+                }
+              ],
+              "answer": 1
+            }
+          },
           "wingShape": "curved"
         },
         {
@@ -315,38 +147,37 @@ window.GAME = {
           "wing": "#d9dccf",
           "image": "",
           "look": "Find the giant Sunderland. Its bottom is shaped like a boat.",
-          "task": {
-            "type": "choice",
-            "q": "Where did the Sunderland land?",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "On water",
-                "icon": "🌊"
-              },
-              {
-                "v": "2",
-                "label": "On snow",
-                "icon": "❄️"
-              },
-              {
-                "v": "3",
-                "label": "In trees",
-                "icon": "🌳"
-              }
-            ]
-          },
           "fact": "The Sunderland is a flying boat. It took off and landed on water!",
-          "talk": "Penguins love water too! Would you like a plane that lands on water?"
+          "talk": "Penguins love water too! Would you like a plane that lands on water?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Where did the Sunderland land?",
+              "options": [
+                {
+                  "label": "On water",
+                  "icon": "🌊"
+                },
+                {
+                  "label": "On snow",
+                  "icon": "❄️"
+                },
+                {
+                  "label": "In trees",
+                  "icon": "🌳"
+                }
+              ],
+              "answer": 1
+            }
+          }
         }
       ]
     },
     {
       "id": "h2",
       "label": "Hangar 2",
-      "era": "1914 to 1918",
       "title": "The first war planes",
+      "era": "1914 to 1918",
       "sign": "cloud",
       "story": [
         "Brrr! The first planes were cold to fly.",
@@ -354,7 +185,7 @@ window.GAME = {
         "Just like a penguin on the ice!"
       ],
       "grown": "Hangar 2 shows the First World War in the Air. Some aircraft hang from the ceiling.",
-      "aircraft": [
+      "stops": [
         {
           "id": "se5a",
           "name": "SE5a",
@@ -363,30 +194,29 @@ window.GAME = {
           "wing": "#c9b27c",
           "image": "",
           "look": "Find the SE5a. It has wings on top of wings.",
-          "task": {
-            "type": "choice",
-            "q": "How many wings are stacked up?",
-            "answer": "2",
-            "options": [
-              {
-                "v": "1",
-                "label": "1",
-                "icon": "stack:1"
-              },
-              {
-                "v": "2",
-                "label": "2",
-                "icon": "stack:2"
-              },
-              {
-                "v": "3",
-                "label": "3",
-                "icon": "stack:3"
-              }
-            ]
-          },
           "fact": "A plane with two sets of wings is called a biplane. \"Bi\" means two!",
-          "talk": "The pilot sat outside in the wind. How do you think that felt?"
+          "talk": "The pilot sat outside in the wind. How do you think that felt?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "How many wings are stacked up?",
+              "options": [
+                {
+                  "label": "1",
+                  "icon": "stack:1"
+                },
+                {
+                  "label": "2",
+                  "icon": "stack:2"
+                },
+                {
+                  "label": "3",
+                  "icon": "stack:3"
+                }
+              ],
+              "answer": 2
+            }
+          }
         },
         {
           "id": "camel",
@@ -396,30 +226,29 @@ window.GAME = {
           "wing": "#b89a62",
           "image": "",
           "look": "Find the Sopwith Camel. It may be hanging up high!",
-          "task": {
-            "type": "choice",
-            "q": "This plane is named after an animal. Which one?",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "Camel",
-                "icon": "🐪"
-              },
-              {
-                "v": "2",
-                "label": "Elephant",
-                "icon": "🐘"
-              },
-              {
-                "v": "3",
-                "label": "Penguin",
-                "icon": "🐧"
-              }
-            ]
-          },
           "fact": "It is called the Sopwith Camel. The bump in front of the pilot looks a bit like a camel's hump!",
-          "talk": "If you named a plane after an animal, which animal would you pick?"
+          "talk": "If you named a plane after an animal, which animal would you pick?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "This plane is named after an animal. Which one?",
+              "options": [
+                {
+                  "label": "Camel",
+                  "icon": "🐪"
+                },
+                {
+                  "label": "Elephant",
+                  "icon": "🐘"
+                },
+                {
+                  "label": "Penguin",
+                  "icon": "🐧"
+                }
+              ],
+              "answer": 1
+            }
+          }
         },
         {
           "id": "triplane",
@@ -429,38 +258,37 @@ window.GAME = {
           "wing": "#cdb98a",
           "image": "",
           "look": "Find the Sopwith Triplane. Count its wings carefully!",
-          "task": {
-            "type": "choice",
-            "q": "How many wings are stacked up?",
-            "answer": "3",
-            "options": [
-              {
-                "v": "1",
-                "label": "1",
-                "icon": "stack:1"
-              },
-              {
-                "v": "2",
-                "label": "2",
-                "icon": "stack:2"
-              },
-              {
-                "v": "3",
-                "label": "3",
-                "icon": "stack:3"
-              }
-            ]
-          },
           "fact": "Three sets of wings! This is called a triplane. \"Tri\" means three.",
-          "talk": "Can you find a plane with two wings, and one with three?"
+          "talk": "Can you find a plane with two wings, and one with three?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "How many wings are stacked up?",
+              "options": [
+                {
+                  "label": "1",
+                  "icon": "stack:1"
+                },
+                {
+                  "label": "2",
+                  "icon": "stack:2"
+                },
+                {
+                  "label": "3",
+                  "icon": "stack:3"
+                }
+              ],
+              "answer": 3
+            }
+          }
         }
       ]
     },
     {
       "id": "h34",
       "label": "Hangars 3 and 4",
-      "era": "1918 to 1980",
       "title": "Faster and higher",
+      "era": "1918 to 1980",
       "sign": "rainbow",
       "story": [
         "Whoosh! Planes got faster and faster.",
@@ -468,7 +296,7 @@ window.GAME = {
         "And people invented helicopters and jets!"
       ],
       "grown": "Hangars 3 and 4 are one big space, separated by pillars. Look for the Harvard, the Hoverfly and the Phantom.",
-      "aircraft": [
+      "stops": [
         {
           "id": "harvard",
           "name": "Harvard",
@@ -477,30 +305,29 @@ window.GAME = {
           "wing": "#f2b632",
           "image": "",
           "look": "Find the Harvard. Learner pilots flew this plane.",
-          "task": {
-            "type": "choice",
-            "q": "Learner pilots flew with a teacher. How many seats does it have?",
-            "answer": "2",
-            "options": [
-              {
-                "v": "1",
-                "label": "1 seat",
-                "icon": "💺"
-              },
-              {
-                "v": "2",
-                "label": "2 seats",
-                "icon": "💺💺"
-              },
-              {
-                "v": "3",
-                "label": "3 seats",
-                "icon": "💺💺💺"
-              }
-            ]
-          },
           "fact": "The learner sat in one seat. The teacher sat in the other seat.",
           "talk": "What would you like to learn if you were a pilot?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Learner pilots flew with a teacher. How many seats does it have?",
+              "options": [
+                {
+                  "label": "1 seat",
+                  "icon": "💺"
+                },
+                {
+                  "label": "2 seats",
+                  "icon": "💺💺"
+                },
+                {
+                  "label": "3 seats",
+                  "icon": "💺💺💺"
+                }
+              ],
+              "answer": 2
+            }
+          },
           "wingShape": "straight"
         },
         {
@@ -511,30 +338,29 @@ window.GAME = {
           "wing": "#2c3e50",
           "image": "",
           "look": "Find the Hoverfly. It is a small, early helicopter.",
-          "task": {
-            "type": "choice",
-            "q": "Count the big blades on top. How many?",
-            "answer": "2",
-            "options": [
-              {
-                "v": "1",
-                "label": "2",
-                "icon": "blades:2"
-              },
-              {
-                "v": "2",
-                "label": "3",
-                "icon": "blades:3"
-              },
-              {
-                "v": "3",
-                "label": "4",
-                "icon": "blades:4"
-              }
-            ]
-          },
           "fact": "The Hoverfly was one of the first helicopters the RAF used.",
-          "talk": "Is it bigger or smaller than the Sea King in Hangar 1?"
+          "talk": "Is it bigger or smaller than the Sea King in Hangar 1?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Count the big blades on top. How many?",
+              "options": [
+                {
+                  "label": "2",
+                  "icon": "blades:2"
+                },
+                {
+                  "label": "3",
+                  "icon": "blades:3"
+                },
+                {
+                  "label": "4",
+                  "icon": "blades:4"
+                }
+              ],
+              "answer": 2
+            }
+          }
         },
         {
           "id": "phantom",
@@ -544,30 +370,29 @@ window.GAME = {
           "wing": "#7c8790",
           "image": "",
           "look": "Find the Phantom. It is a big, grey jet.",
-          "task": {
-            "type": "choice",
-            "q": "What makes the Phantom go?",
-            "answer": "2",
-            "options": [
-              {
-                "v": "1",
-                "label": "Propellers",
-                "icon": "🌀"
-              },
-              {
-                "v": "2",
-                "label": "Jet engines",
-                "icon": "🔥"
-              },
-              {
-                "v": "3",
-                "label": "Pedals",
-                "icon": "🚲"
-              }
-            ]
-          },
           "fact": "Jet engines push hot air out of the back, very fast. Whoosh!",
           "talk": "Can you make a jet engine noise?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "What makes the Phantom go?",
+              "options": [
+                {
+                  "label": "Propellers",
+                  "icon": "🌀"
+                },
+                {
+                  "label": "Jet engines",
+                  "icon": "🔥"
+                },
+                {
+                  "label": "Pedals",
+                  "icon": "🚲"
+                }
+              ],
+              "answer": 2
+            }
+          },
           "wingShape": "swept"
         }
       ]
@@ -575,8 +400,8 @@ window.GAME = {
     {
       "id": "h5",
       "label": "Hangar 5",
-      "era": "1939 to 1945",
       "title": "The Second World War",
+      "era": "1939 to 1945",
       "sign": "moon",
       "story": [
         "This is the Bomber Hall.",
@@ -584,7 +409,7 @@ window.GAME = {
         "Many of them flew at night, in the dark."
       ],
       "grown": "Hangar 5 is the Bomber Hall. The Lancaster 'S for Sugar' is the star. The Komet is very small, so look carefully.",
-      "aircraft": [
+      "stops": [
         {
           "id": "lancaster",
           "name": "Lancaster",
@@ -593,30 +418,29 @@ window.GAME = {
           "wing": "#2f3b2e",
           "image": "",
           "look": "Find the very big Lancaster. Its name is S for Sugar.",
-          "task": {
-            "type": "choice",
-            "q": "Count the propellers on the wings. How many?",
-            "answer": "2",
-            "options": [
-              {
-                "v": "1",
-                "label": "2",
-                "icon": "props:2"
-              },
-              {
-                "v": "2",
-                "label": "4",
-                "icon": "props:4"
-              },
-              {
-                "v": "3",
-                "label": "6",
-                "icon": "props:6"
-              }
-            ]
-          },
           "fact": "The Lancaster has four engines. Each one turns a propeller. Big planes need lots of power!",
-          "talk": "Why do you think a big plane needs so many engines?"
+          "talk": "Why do you think a big plane needs so many engines?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Count the propellers on the wings. How many?",
+              "options": [
+                {
+                  "label": "2",
+                  "icon": "props:2"
+                },
+                {
+                  "label": "4",
+                  "icon": "props:4"
+                },
+                {
+                  "label": "6",
+                  "icon": "props:6"
+                }
+              ],
+              "answer": 2
+            }
+          }
         },
         {
           "id": "mustang",
@@ -626,30 +450,29 @@ window.GAME = {
           "wing": "#c3c9cf",
           "image": "",
           "look": "Find the Mustang. It is a shiny fighter plane.",
-          "task": {
-            "type": "choice",
-            "q": "Count the blades on its propeller. How many?",
-            "answer": "3",
-            "options": [
-              {
-                "v": "1",
-                "label": "2",
-                "icon": "blades:2"
-              },
-              {
-                "v": "2",
-                "label": "3",
-                "icon": "blades:3"
-              },
-              {
-                "v": "3",
-                "label": "4",
-                "icon": "blades:4"
-              }
-            ]
-          },
           "fact": "The Mustang's propeller has four blades. They spin round to pull the plane through the air.",
           "talk": "A mustang is a kind of horse. Why do you think they chose that name?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Count the blades on its propeller. How many?",
+              "options": [
+                {
+                  "label": "2",
+                  "icon": "blades:2"
+                },
+                {
+                  "label": "3",
+                  "icon": "blades:3"
+                },
+                {
+                  "label": "4",
+                  "icon": "blades:4"
+                }
+              ],
+              "answer": 3
+            }
+          },
           "wingShape": "straight"
         },
         {
@@ -660,38 +483,37 @@ window.GAME = {
           "wing": "#8a7a5a",
           "image": "",
           "look": "Find the Komet. It is very small, with no tail at the back.",
-          "task": {
-            "type": "choice",
-            "q": "The Komet was super fast. What made it go?",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "A rocket",
-                "icon": "🚀"
-              },
-              {
-                "v": "2",
-                "label": "Pedals",
-                "icon": "🚲"
-              },
-              {
-                "v": "3",
-                "label": "A sail",
-                "icon": "⛵"
-              }
-            ]
-          },
           "fact": "The Komet had a rocket engine. It was tiny, but very, very fast!",
-          "talk": "Is the Komet bigger or smaller than the Lancaster?"
+          "talk": "Is the Komet bigger or smaller than the Lancaster?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "The Komet was super fast. What made it go?",
+              "options": [
+                {
+                  "label": "A rocket",
+                  "icon": "🚀"
+                },
+                {
+                  "label": "Pedals",
+                  "icon": "🚲"
+                },
+                {
+                  "label": "A sail",
+                  "icon": "⛵"
+                }
+              ],
+              "answer": 1
+            }
+          }
         }
       ]
     },
     {
       "id": "h6",
       "label": "Hangar 6",
-      "era": "1980 to today",
       "title": "Modern times",
+      "era": "1980 to today",
       "sign": "star",
       "story": [
         "Beep beep! Now we are in modern times.",
@@ -699,7 +521,7 @@ window.GAME = {
         "One has no pilot inside at all!"
       ],
       "grown": "Hangar 6 is The RAF in an Age of Uncertainty, 1980 to today. Some aircraft are displayed as if flying.",
-      "aircraft": [
+      "stops": [
         {
           "id": "predator",
           "name": "Predator",
@@ -708,30 +530,29 @@ window.GAME = {
           "wing": "#a9b2ba",
           "image": "",
           "look": "Find the Predator. It is long and grey, with no windows at the front.",
-          "task": {
-            "type": "choice",
-            "q": "Where is the pilot of the Predator?",
-            "answer": "2",
-            "options": [
-              {
-                "v": "1",
-                "label": "Inside the plane",
-                "icon": "🧑‍✈️"
-              },
-              {
-                "v": "2",
-                "label": "On the ground",
-                "icon": "🖥️"
-              },
-              {
-                "v": "3",
-                "label": "On the wing",
-                "icon": "🪂"
-              }
-            ]
-          },
           "fact": "The Predator crew fly it from the ground. They watch screens a long way away.",
-          "talk": "Would you like to fly inside a plane, or from the ground?"
+          "talk": "Would you like to fly inside a plane, or from the ground?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Where is the pilot of the Predator?",
+              "options": [
+                {
+                  "label": "Inside the plane",
+                  "icon": "🧑‍✈️"
+                },
+                {
+                  "label": "On the ground",
+                  "icon": "🖥️"
+                },
+                {
+                  "label": "On the wing",
+                  "icon": "🪂"
+                }
+              ],
+              "answer": 2
+            }
+          }
         },
         {
           "id": "tornado",
@@ -741,25 +562,25 @@ window.GAME = {
           "wing": "#7d8a80",
           "image": "",
           "look": "Find the Tornado. Its wings can move!",
-          "task": {
-            "type": "choice",
-            "q": "The Tornado's wings can move. Which way are they for flying fast?",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "Swept back",
-                "icon": "wing:swept"
-              },
-              {
-                "v": "2",
-                "label": "Straight out",
-                "icon": "wing:straight"
-              }
-            ]
-          },
           "fact": "The wings swing back to fly fast, and forwards to take off and land.",
           "talk": "Hold your arms out like wings. Now sweep them back. Zoom!",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "The Tornado's wings can move. Which way are they for flying fast?",
+              "options": [
+                {
+                  "label": "Swept back",
+                  "icon": "wing:swept"
+                },
+                {
+                  "label": "Straight out",
+                  "icon": "wing:straight"
+                }
+              ],
+              "answer": 1
+            }
+          },
           "wingShape": "swept"
         },
         {
@@ -770,32 +591,43 @@ window.GAME = {
           "wing": "#8e979e",
           "image": "",
           "look": "Find the Typhoon. Look for tiny wings near its nose.",
-          "task": {
-            "type": "choice",
-            "q": "Where are the Typhoon's tiny wings?",
-            "answer": "1",
-            "options": [
-              {
-                "v": "1",
-                "label": "At the front",
-                "icon": "⬅️"
-              },
-              {
-                "v": "2",
-                "label": "On the tail",
-                "icon": "➡️"
-              },
-              {
-                "v": "3",
-                "label": "No tiny wings",
-                "icon": "❌"
-              }
-            ]
-          },
           "fact": "The Typhoon has small wings near the front. They help it twist and turn quickly.",
-          "talk": "Which plane in this hangar do you like best? Why?"
+          "talk": "Which plane in this hangar do you like best? Why?",
+          "tasks": {
+            "junior": {
+              "type": "choice",
+              "q": "Where are the Typhoon's tiny wings?",
+              "options": [
+                {
+                  "label": "At the front",
+                  "icon": "⬅️"
+                },
+                {
+                  "label": "On the tail",
+                  "icon": "➡️"
+                },
+                {
+                  "label": "No tiny wings",
+                  "icon": "❌"
+                }
+              ],
+              "answer": 1
+            }
+          }
         }
       ]
     }
-  ]
+  ],
+  "finale": {
+    "type": "plane",
+    "label": "Back in Hangar 1",
+    "title": "Design Percy's plane",
+    "story": [
+      "I can't fly with my flippers...",
+      "...but I CAN fly in a plane!",
+      "Will you design a plane for me?"
+    ],
+    "grown": "Hangar 1 also has a real \"Design your own plane\" activity in First to the Future."
+  },
+  "legal": "Prototype for RAF Museum London, ages 4–8. Percy is a made-up character. Drawings are simple and not accurate. Aircraft locations were checked on public sources in November 2026; route, sign places, viewing points and all facts must be checked by Museum staff before use. Do not touch the aircraft or climb barriers. Children must stay with their grown-up."
 };

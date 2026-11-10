@@ -1,38 +1,57 @@
-# Museum Trail – story trail game engine
+# Museum Trail
 
-First trail: **Percy's Flying Mission** (RAF Museum London, ages 4–8).
+One game engine. One file per museum. A visual editor.
 
-## How it works
-1. **Edit content in Webflow CMS** (free plan): collections *Trail Zones* (hangars) and *Trail Stops* (aircraft).
-2. **Press "Run workflow"** on this repo's *Actions* tab → *Sync from Webflow*. It downloads the CMS, checks it, and updates `games/raf-london.js`.
-3. **The live game updates** on GitHub Pages about a minute later.
+| Link | What it is |
+|---|---|
+| `index.html` | Demo trail for a made-up museum (the default) |
+| `index.html?game=raf-london` | Sample: Percy's Flying Mission (RAF Museum London, not approved by the Museum) |
+| `editor.html` | Trail editor with a live phone preview |
+| `editor.html?game=raf-london` | Open a different trail in the editor |
 
-If the check finds a problem (for example a missing question), nothing changes, and the run lists what to fix.
+## Structure
+```
+index.html          page shell (never changes)
+engine/trail.js     game rules, screens, all game types
+engine/trail.css    look and layout (colours come from each trail's theme)
+engine/art.js       drawings: guide characters, aircraft, badges
+games/<name>.js     ONE trail = ONE file (words, colours, areas, stops, games)
+editor.html         edit a trail without touching code
+make-signs.py       printable signs with QR codes
+```
+Fix or improve the engine once and every museum's trail gets it.
 
-## Everyday edits (in Webflow CMS)
-- **Change words:** edit the item's fields.
-- **Hide a stop or zone:** set the item to *Draft*, or archive it.
-- **Add a stop:** new item in Trail Stops; pick its Zone and Order.
-- **Add a photo:** upload to the item's Photo field. It replaces the drawing.
-- **Answer pictures:** an emoji (🌊), a number (2), or `stack:2`, `props:4`, `blades:3`, `wing:curved|straight|swept|delta`.
-- **Tap picture questions:** set *Tap spots* to the circle positions as across,down percentages, e.g. `50,17 | 52,54 | 16,46`.
+## Make a trail for a new museum (no coding)
+1. Open `editor.html`. It opens the demo trail.
+2. Section 1: change the trail file name (e.g. `science-museum`), title, museum name, colours and guide.
+3. Change the areas, stops and games. The phone preview updates as you type.
+4. Fix anything in the yellow "things to fix" box.
+5. Press **Download trail file**. Upload the file to the `games` folder on GitHub (Add file → Upload files).
+6. Play it at `index.html?game=science-museum`.
 
-## Trail-wide settings
-`trails/raf-london.json`: title, museum name, guide character text, intro, certificate words, plane designer options, and the Webflow site and collection names. Edit it on GitHub (pencil icon) and run the sync.
+## What you can customise per museum
+- **Brand:** title, museum name, logo, 4 colours, small print.
+- **Guide character:** penguin, robot, or your own picture. Name and all speech.
+- **Wording:** what areas and stops are called ("hangars" and "aircraft", "galleries" and "exhibits").
+- **Age groups:** any number. Each stop can have a different game per age group.
+- **Rules per age group:** stops needed per area, when to show the answer, read-aloud on or off.
+- **Ending:** design a badge, design a plane, or certificate only.
 
-## New museum
-1. In Webflow, duplicate the site (or add new Zones/Stops collections).
-2. Copy `trails/raf-london.json` to `trails/new-museum.json` and change the words and the Webflow site ID.
-3. Run the sync with trail = `new-museum`. Play at `.../?game=new-museum`.
-
-## One-time setup
-1. **Webflow token:** Webflow → Site settings → Apps & integrations → API access → Generate token. Give it read access to CMS and Sites.
-2. **Add it to GitHub:** this repo → Settings → Secrets and variables → Actions → New repository secret. Name: `WEBFLOW_TOKEN`.
-3. **GitHub Pages:** Settings → Pages → Deploy from a branch → `main` / root.
+## Game types
+| Type | Child does | Best for |
+|---|---|---|
+| `choice` | Picks one answer | All ages |
+| `hotspot` | Taps the right part of the picture | 4–8 |
+| `count` | Counts with + and − | 4–8 |
+| `spy` | Ticks off things they find (no wrong answer) | 4–8 |
+| `order` | Puts items in order | 9+ |
+| `match` | Matches pairs | 9+ |
+| `code` | Types an answer read from a label | 9+ |
+| `estimate` | Best guess on a slider | 9+ |
 
 ## Signs
-`python make-signs.py raf-london https://YOUR-PAGES-ADDRESS/` makes printable signs with QR codes.
+`python make-signs.py <trail> https://YOUR-ADDRESS/index.html` (needs `pip install "qrcode[pil]"`).
 
-## Before visitors use it
+## Before visitors use a trail
 - A curator checks every fact and answer.
-- Set `const DEMO_BUILD=false` in `index.html`.
+- Set `const DEMO_BUILD=false` in `engine/trail.js`.
