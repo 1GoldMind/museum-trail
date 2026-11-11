@@ -1,0 +1,23 @@
+name = "museum-trail-pay"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# Create with: npx wrangler kv namespace create CODES   (then paste the id it prints)
+[[kv_namespaces]]
+binding = "CODES"
+id = "PASTE_KV_ID_HERE"
+
+[vars]
+# One entry per trail. Prices are in pence. feePercent = your share, taken automatically (Stripe only).
+TRAILS = '''
+{
+  "demo": {
+    "tz": "Europe/London", "currency": "gbp",
+    "origins": ["https://1goldmind.github.io"],
+    "stripeAccount": "", "feePercent": 0,
+    "packs": {
+      "explorer": { "name": "The Battery Mystery", "prices": { "1": 300, "2": 500, "3": 600 }, "shopify": {} }
+    }
+  }
+}
+'''

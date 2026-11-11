@@ -90,3 +90,33 @@ h1{font-size:clamp(36px,7vw,60px);line-height:1.02;letter-spacing:-.04em}h2{font
 @media(max-width:560px){body{font-size:18px}.say{grid-template-columns:70px 1fr}.say>svg,.say>img{width:70px;height:70px}.bubble{font-size:19px}.hcard{grid-template-columns:86px 1fr}.card{font-size:15px}.choice{min-height:124px;font-size:17px}.swatch{width:50px;height:50px}.mbtn{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 @media print{.header,.settings,.legal,.noprint{display:none!important}body{background:#fff}.panel{box-shadow:none}.preview{position:static;box-shadow:none}}
+
+/* ---- v5: layout settings ---- */
+:root{--ts:1;--sp:1;--m:1;--cols:repeat(auto-fit,minmax(96px,1fr))}
+@media(max-width:560px){:root{--m:.92}}
+.bubble{font-size:calc(21px*var(--ts)*var(--m));padding:calc(14px*var(--sp)) calc(18px*var(--sp))}
+.choice{font-size:calc(19px*var(--ts)*var(--m));padding:calc(10px*var(--sp)) 6px}.mbtn{font-size:calc(18px*var(--ts)*var(--m))}
+.card{font-size:calc(17px*var(--ts)*var(--m));padding:calc(8px*var(--sp)) calc(6px*var(--sp)) calc(12px*var(--sp))}
+.lookbox,.fact,.feedback{font-size:calc(20px*var(--ts)*var(--m))}h3{font-size:calc(23px*var(--ts)*var(--m))}
+.panel:not(.hero){padding:calc(22px*var(--sp)) calc(18px*var(--sp))}
+.choices,.acards{grid-template-columns:var(--cols);gap:calc(10px*var(--sp))}
+.sq .panel,.sq .btn,.sq .choice,.sq .card,.sq .bubble,.sq .hcard,.sq .mbtn,.sq .opt,.sq .scene,.sq .lookbox,.sq .fact,.sq .pack,.sq .level,.sq .floor{border-radius:6px}
+/* floor plan */
+.floor{position:relative;margin:14px 0;border-radius:22px;overflow:hidden;border:2px solid var(--line);background:#fff;box-shadow:var(--shadow)}.floor img{display:block;width:100%;height:auto}
+.pin{position:absolute;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;border:4px solid #fff;background:var(--navy);color:var(--on-navy);font-weight:950;font-size:20px;box-shadow:0 4px 10px #0006;display:grid;place-items:center;padding:0}
+.pin.done{background:var(--green);color:#fff}.pin.locked{background:#7b8c99;color:#fff;font-size:17px}.pin.here{animation:pulse 1.4s ease-in-out infinite;outline:4px solid var(--gold)}
+/* packs */
+.packs{display:grid;gap:10px;width:100%}.pack{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;text-align:left;border:3px solid #b9d6e5;background:#f5fbff;border-radius:18px;padding:12px;color:#174b6c}
+.pack .e{font-size:34px;text-align:center}.pack .pt{display:grid;gap:2px;font-size:15px}.pack .pt b{font-size:19px}.pack .pm{color:var(--muted);font-size:13.5px;font-weight:700}.pack .pp{font-weight:900;font-size:16px;white-space:nowrap}
+.pack[aria-pressed=true]{border-color:var(--navy);background:color-mix(in srgb,var(--gold) 45%,#fff);box-shadow:inset 0 0 0 2px var(--navy)}
+.level b{display:block;font-size:20px}
+/* new games */
+.shadow svg,.shadow img,.shadow .emoji-art{filter:brightness(0)}
+.choice img{width:100%;max-height:90px;object-fit:cover;border-radius:10px}
+.tiles{position:absolute;inset:0;display:grid;gap:3px}.tile{background:var(--navy);color:var(--on-navy);display:grid;place-items:center;font-size:30px;border-radius:8px;transition:opacity .5s}.tile.off{opacity:0}
+.lock{display:grid;gap:10px;margin:12px 0}.dig{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#f5fbff;border:2px solid #b9d6e5;border-radius:16px;padding:8px 12px}.dq{font-weight:800}
+.dig .counter{margin:0;gap:8px}.rnd.sm{width:52px;min-height:52px;font-size:28px}.dig .num{font-size:40px;min-width:44px}
+.turn{background:var(--navy);color:var(--on-navy);border-radius:14px;padding:10px 14px;font-weight:900;text-align:center;margin:8px 0}
+.board{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}.board span{background:#fff;border:2px solid var(--line);border-radius:99px;padding:6px 14px;font-weight:800}
+.snap{display:block;width:100%;max-height:320px;object-fit:cover;border-radius:18px;margin:10px 0;border:4px solid #fff;box-shadow:var(--shadow)}
+.album{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.album img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}

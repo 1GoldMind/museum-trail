@@ -18,7 +18,8 @@ window.GAME = {
     "primary": "#071d35",
     "accent": "#ffd36d",
     "link": "#145d94",
-    "background": "#eaf3f7"
+    "background": "#eaf3f7",
+    "font": "rounded"
   },
   "words": {
     "zone": "hangar",
@@ -151,23 +152,14 @@ window.GAME = {
           "talk": "Penguins love water too! Would you like a plane that lands on water?",
           "tasks": {
             "junior": {
-              "type": "choice",
-              "q": "Where did the Sunderland land?",
-              "options": [
-                {
-                  "label": "On water",
-                  "icon": "🌊"
-                },
-                {
-                  "label": "On snow",
-                  "icon": "❄️"
-                },
-                {
-                  "label": "In trees",
-                  "icon": "🌳"
-                }
-              ],
-              "answer": 1
+              "type": "jigsaw",
+              "q": "Find each part on the real Sunderland to finish the puzzle.",
+              "items": [
+                "Find the boat-shaped bottom",
+                "Find a propeller",
+                "Find a window",
+                "Find the tail"
+              ]
             }
           }
         }
@@ -262,23 +254,9 @@ window.GAME = {
           "talk": "Can you find a plane with two wings, and one with three?",
           "tasks": {
             "junior": {
-              "type": "choice",
-              "q": "How many wings are stacked up?",
-              "options": [
-                {
-                  "label": "1",
-                  "icon": "stack:1"
-                },
-                {
-                  "label": "2",
-                  "icon": "stack:2"
-                },
-                {
-                  "label": "3",
-                  "icon": "stack:3"
-                }
-              ],
-              "answer": 3
+              "type": "truefalse",
+              "q": "True or false? The Triplane has 2 sets of wings. Go and count!",
+              "answer": false
             }
           }
         }
@@ -454,23 +432,23 @@ window.GAME = {
           "talk": "A mustang is a kind of horse. Why do you think they chose that name?",
           "tasks": {
             "junior": {
-              "type": "choice",
-              "q": "Count the blades on its propeller. How many?",
+              "type": "silhouette",
+              "q": "Whose shadow is this? Find it in the hangar!",
               "options": [
                 {
-                  "label": "2",
-                  "icon": "blades:2"
+                  "label": "Lancaster",
+                  "icon": "1"
                 },
                 {
-                  "label": "3",
-                  "icon": "blades:3"
+                  "label": "Mustang",
+                  "icon": "2"
                 },
                 {
-                  "label": "4",
-                  "icon": "blades:4"
+                  "label": "Komet",
+                  "icon": "3"
                 }
               ],
-              "answer": 3
+              "answer": 2
             }
           },
           "wingShape": "straight"
@@ -629,5 +607,30 @@ window.GAME = {
     ],
     "grown": "Hangar 1 also has a real \"Design your own plane\" activity in First to the Future."
   },
-  "legal": "Prototype for RAF Museum London, ages 4–8. Percy is a made-up character. Drawings are simple and not accurate. Aircraft locations were checked on public sources in November 2026; route, sign places, viewing points and all facts must be checked by Museum staff before use. Do not touch the aircraft or climb barriers. Children must stay with their grown-up."
+  "legal": "Prototype for RAF Museum London, ages 4–8. Percy is a made-up character. Drawings are simple and not accurate. Aircraft locations were checked on public sources in November 2026; route, sign places, viewing points and all facts must be checked by Museum staff before use. Do not touch the aircraft or climb barriers. Children must stay with their grown-up.",
+  "map": {
+    "image": "images/raf-london-map.svg",
+    "pins": {
+      "h1": {
+        "x": 19,
+        "y": 60
+      },
+      "h2": {
+        "x": 19,
+        "y": 19
+      },
+      "h34": {
+        "x": 52,
+        "y": 24
+      },
+      "h5": {
+        "x": 83,
+        "y": 24
+      },
+      "h6": {
+        "x": 80,
+        "y": 66
+      }
+    }
+  }
 };

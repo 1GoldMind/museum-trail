@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="Arial Rounded MT Bold,Arial,sans-serif" font-weight="bold">
+<rect width="800" height="560" fill="#cfeec6"/>
+<path d="M90 500Q150 380 300 400T520 300 700 150" fill="none" stroke="#e9e2cf" stroke-width="36" stroke-linecap="round"/>
+<path d="M90 500Q150 380 300 400T520 300 700 150" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="14 16"/>
+<g stroke="#1f3b57" stroke-width="7" stroke-linejoin="round">
+<path d="M40 330H270V470H40Z" fill="#ffe08a"/><path d="M40 330Q155 250 270 330Z" fill="#f5b83d"/>
+<path d="M60 90H240V220H60Z" fill="#f6c9a8"/><path d="M60 90Q150 30 240 90Z" fill="#e58e5a"/>
+<path d="M310 60H770V120H310Z" fill="#9db4c8"/><path d="M310 120H530V250H310Z" fill="#cfe3f5"/><path d="M550 120H770V250H550Z" fill="#b9c6d6"/>
+<path d="M520 360H770V500H520Z" fill="#c8f0e4"/><path d="M520 360Q645 290 770 360Z" fill="#62c7a8"/>
+</g>
+<g font-size="24" fill="#1f3b57" text-anchor="middle"><text x="155" y="450">Hangar 1</text><text x="150" y="200">Hangar 2</text><text x="420" y="230">Hangars 3 and 4</text><text x="660" y="230">Hangar 5</text><text x="645" y="480">Hangar 6</text></g>
+<g font-size="46" text-anchor="middle"><text x="155" y="405">🚁</text><text x="150" y="160">🛩️</text><text x="420" y="190">✈️</text><text x="660" y="190">🌙</text><text x="645" y="435">🛰️</text><text x="330" y="500">🌳</text><text x="290" y="330">🌳</text></g>
+<text x="400" y="545" font-size="15" text-anchor="middle" fill="#3d5c3a">Draft picture map. Not to scale. Check against the real site.</text>
+</svg>

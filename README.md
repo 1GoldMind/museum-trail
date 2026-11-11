@@ -40,14 +40,24 @@ Fix or improve the engine once and every museum's trail gets it.
 ## Game types
 | Type | Child does | Best for |
 |---|---|---|
-| `choice` | Picks one answer | All ages |
-| `hotspot` | Taps the right part of the picture | 4–8 |
-| `count` | Counts with + and − | 4–8 |
-| `spy` | Ticks off things they find (no wrong answer) | 4–8 |
-| `order` | Puts items in order | 9+ |
-| `match` | Matches pairs | 9+ |
-| `code` | Types an answer read from a label | 9+ |
-| `estimate` | Best guess on a slider | 9+ |
+| `choice`, `hotspot`, `count`, `spy` | Pick, tap the picture, count, I-spy | 4–8 |
+| `truefalse` | Checks a statement against the real object | 4–10 |
+| `silhouette` | Finds the object that matches a shadow | 4–8 |
+| `jigsaw` | Finds details on the real object to reveal the picture | 4–10 |
+| `spot` | Finds the mistakes on a fact card or drawing | 6–14 |
+| `oddone` | Picks the one that does not belong | 7–14 |
+| `padlock` | Counts or reads numbers in the room to open a lock | 8–14 |
+| `order`, `match`, `code`, `estimate` | Timeline, pairs, read a label, best guess | 9+ |
+| `poll` | Would you rather (no wrong answer) | All |
+| `photo` | Photo mission; photos stay on the phone | All |
+
+## Also in each trail
+- **Game packs:** each pack has a description, length, what it teaches and a price. Free or paid.
+- **Mystery ending:** clues from each area, then name the culprit.
+- **Family mode:** pass the phone, take turns, scores on the certificate.
+- **Floor plan:** upload a map picture and drag pins in the editor.
+- **Layout settings:** font, text size, spacing, boxes per row, corners.
+- **Payments:** demo, Stripe or Shopify. See `server/README.md`.
 
 ## Signs
 `python make-signs.py <trail> https://YOUR-ADDRESS/index.html` (needs `pip install "qrcode[pil]"`).
