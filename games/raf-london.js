@@ -41,7 +41,7 @@ window.GAME = {
     "intro": [
       "Hello! I am Percy the penguin.",
       "Penguins can't fly... but I really, really want to!",
-      "The RAF has been flying for over 100 years. Will you help me learn how they do it?"
+      "Brrr! First I need my flying kit. Will you help me earn it?"
     ],
     "introChips": [
       "About 1 hour, to test",
@@ -56,7 +56,8 @@ window.GAME = {
     "stampGold": "You found all the aircraft here. Amazing!",
     "certTitle": "Official Flying Mission crew",
     "certLine": "helped Percy learn to fly through the RAF story.",
-    "certThanks": "Thank you! Now I can fly"
+    "certThanks": "Thank you! Now I can fly",
+    "collection": "My hangar"
   },
   "zones": [
     {
@@ -163,7 +164,16 @@ window.GAME = {
             }
           }
         }
-      ]
+      ],
+      "reward": {
+        "outfit": "scarf",
+        "outfitLabel": "A warm scarf",
+        "outfitWhy": "It is cold up in the sky!",
+        "part": "The body of your plane",
+        "unlock": [
+          "shape"
+        ]
+      }
     },
     {
       "id": "h2",
@@ -260,7 +270,16 @@ window.GAME = {
             }
           }
         }
-      ]
+      ],
+      "reward": {
+        "outfit": "goggles",
+        "outfitLabel": "A flying helmet and goggles",
+        "outfitWhy": "Early pilots sat in the open air. Goggles kept the wind out of their eyes.",
+        "part": "Paint for your plane",
+        "unlock": [
+          "colour"
+        ]
+      }
     },
     {
       "id": "h34",
@@ -373,7 +392,16 @@ window.GAME = {
           },
           "wingShape": "swept"
         }
-      ]
+      ],
+      "reward": {
+        "outfit": "jacket",
+        "outfitLabel": "A flying jacket",
+        "outfitWhy": "It keeps a pilot warm high up, where the air is freezing.",
+        "part": "An engine for your plane",
+        "unlock": [
+          "trail"
+        ]
+      }
     },
     {
       "id": "h5",
@@ -485,7 +513,17 @@ window.GAME = {
             }
           }
         }
-      ]
+      ],
+      "reward": {
+        "outfit": "map",
+        "outfitLabel": "A map and compass",
+        "outfitWhy": "Navigators used maps to find the way in the dark.",
+        "part": "Markings for your plane",
+        "unlock": [
+          "pattern",
+          "sticker"
+        ]
+      }
     },
     {
       "id": "h6",
@@ -593,7 +631,16 @@ window.GAME = {
             }
           }
         }
-      ]
+      ],
+      "reward": {
+        "outfit": "wings",
+        "outfitLabel": "A pilot's wings badge",
+        "outfitWhy": "Pilots earn their wings when they finish their training.",
+        "part": "Nose art and a lucky number",
+        "unlock": [
+          "nose"
+        ]
+      }
     }
   ],
   "finale": {
@@ -632,5 +679,35 @@ window.GAME = {
         "y": 66
       }
     }
-  }
+  },
+  "ranks": [
+    [
+      0,
+      "Cadet"
+    ],
+    [
+      2,
+      "Pilot Officer"
+    ],
+    [
+      4,
+      "Flying Officer"
+    ],
+    [
+      7,
+      "Flight Lieutenant"
+    ],
+    [
+      10,
+      "Squadron Leader"
+    ],
+    [
+      13,
+      "Wing Commander"
+    ],
+    [
+      15,
+      "Group Captain"
+    ]
+  ]
 };

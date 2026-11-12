@@ -224,7 +224,13 @@ window.GAME = {
           }
         }
       ],
-      "clue": "The culprit has no bones."
+      "clue": "The culprit has no bones.",
+      "reward": {
+        "part": "The shape of your badge",
+        "unlock": [
+          "shape"
+        ]
+      }
     },
     {
       "id": "space",
@@ -351,7 +357,13 @@ window.GAME = {
           }
         }
       ],
-      "clue": "The culprit has never been to space."
+      "clue": "The culprit has never been to space.",
+      "reward": {
+        "part": "Colours for your badge",
+        "unlock": [
+          "colour"
+        ]
+      }
     },
     {
       "id": "ocean",
@@ -477,7 +489,14 @@ window.GAME = {
           }
         }
       ],
-      "clue": "The culprit has eight arms."
+      "clue": "The culprit has eight arms.",
+      "reward": {
+        "part": "A pattern and picture for your badge",
+        "unlock": [
+          "pattern",
+          "sticker"
+        ]
+      }
     }
   ],
   "finale": {
@@ -513,5 +532,23 @@ window.GAME = {
     "provider": "demo",
     "api": "",
     "shop": ""
-  }
+  },
+  "ranks": [
+    [
+      0,
+      "New Explorer"
+    ],
+    [
+      3,
+      "Junior Explorer"
+    ],
+    [
+      6,
+      "Senior Explorer"
+    ],
+    [
+      9,
+      "Chief Explorer"
+    ]
+  ]
 };
