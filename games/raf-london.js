@@ -34,7 +34,18 @@ window.GAME = {
       "emoji": "🐣",
       "stopsToPass": 1,
       "showAnswerAfter": 2,
-      "readAloud": true
+      "readAloud": true,
+      "desc": "Help Percy earn his flying kit, hangar by hangar. Ages 4–8.",
+      "minutes": "60",
+      "teaches": "Looking closely, RAF history",
+      "price": "£3",
+      "prices": {
+        "1": "£3",
+        "2": "£5",
+        "3": "£6"
+      },
+      "paid": true,
+      "freeZones": 1
     }
   ],
   "text": {
@@ -65,7 +76,7 @@ window.GAME = {
       "label": "Hangar 1",
       "title": "The RAF story begins",
       "era": "1918 to 2018",
-      "sign": "sun",
+      "sign": "roundel",
       "story": [
         "We are in Hangar 1. This is where the RAF story starts.",
         "The RAF began in 1918. That is more than 100 years ago!",
@@ -180,7 +191,7 @@ window.GAME = {
       "label": "Hangar 2",
       "title": "The first war planes",
       "era": "1914 to 1918",
-      "sign": "cloud",
+      "sign": "propeller",
       "story": [
         "Brrr! The first planes were cold to fly.",
         "They were made of wood and cloth. Pilots sat in the open air, in the wind.",
@@ -286,7 +297,7 @@ window.GAME = {
       "label": "Hangars 3 and 4",
       "title": "Faster and higher",
       "era": "1918 to 1980",
-      "sign": "rainbow",
+      "sign": "goggles",
       "story": [
         "Whoosh! Planes got faster and faster.",
         "New pilots had to learn how to fly.",
@@ -408,7 +419,7 @@ window.GAME = {
       "label": "Hangar 5",
       "title": "The Second World War",
       "era": "1939 to 1945",
-      "sign": "moon",
+      "sign": "compass",
       "story": [
         "This is the Bomber Hall.",
         "Here are big, heavy planes from the Second World War.",
@@ -530,7 +541,7 @@ window.GAME = {
       "label": "Hangar 6",
       "title": "Modern times",
       "era": "1980 to today",
-      "sign": "star",
+      "sign": "wings",
       "story": [
         "Beep beep! Now we are in modern times.",
         "Some planes here can change shape.",
@@ -709,5 +720,10 @@ window.GAME = {
       15,
       "Group Captain"
     ]
-  ]
+  ],
+  "pay": {
+    "provider": "demo",
+    "api": "",
+    "shop": ""
+  }
 };
